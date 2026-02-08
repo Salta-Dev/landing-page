@@ -1,38 +1,63 @@
-<nav id="nav">
-  <div class="leftSide">
-
-    <a href="/" class="d-block overflow-hidden" id="navLogo">
-      <div class="notHoverContainer d-block overflow-hidden" style="height: 5vh;">
-        <img src="/assets/img/logo-text.webp" alt="" class="notHover">
+<header class="fixed top-0 left-0 right-0 z-50 border-b border-border-dark glass transition-all duration-300 relative">
+  <div class="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-20">
+      <div class="flex items-center gap-3">
+        <img alt="Logo SaltaDev" class="h-9 w-auto" src="/assets/img/logo.png">
+        <span class="text-2xl font-bold tracking-tight text-white">SaltaDev</span>
       </div>
-      <div class="inHoverContainer">
-        <img src="/assets/img/logo.webp" alt="" class="inHover">
-
+      <nav class="hidden md:flex items-center gap-8">
+        <a class="text-sm font-medium text-white hover:text-white transition-colors" href="/">Inicio</a>
+        <a class="text-sm font-medium text-white hover:text-white transition-colors" href="/#partners">Colaboradores</a>
+        <a class="text-sm font-medium text-white hover:text-white transition-colors" href="/#staff">Staff</a>
+        <a class="text-sm font-medium text-white hover:text-white transition-colors" href="/#community">Comunidad</a>
+        <a class="text-sm font-medium text-white hover:text-white transition-colors" href="/events">Eventos</a>
+        <a class="text-sm font-medium text-white hover:text-white transition-colors" href="/reglamento">Reglamento</a>
+      </nav>
+      <div class="flex items-center gap-4">
+        <a class="hidden md:flex bg-primary hover:bg-red-700 text-white text-sm font-bold px-5 py-2.5 rounded-lg shadow-lg shadow-primary/20 transition-all items-center gap-2" href="{{ site.whatsapp }}" target="_blank">
+          <span>Unirse</span>
+          <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+        </a>
+        <button class="md:hidden text-white p-2" type="button" id="mobileMenuToggle" aria-label="Abrir menu" aria-expanded="false">
+          <span class="material-symbols-outlined">menu</span>
+        </button>
       </div>
-    </a>
+    </div>
   </div>
-
-  <div class="rightSide" id="rightSide">
-    <!-- <a href="/courses" class="d-block ">Cursos</a> -->
-    <!-- <a href="/jobs" class="d-block">Oportunidades</a> -->
-    <a href="/#partners" class="d-block">Empresas</a>
-    <a href="/#staff" class="d-block">Staff</a>
-    <a href="/#aboutUs" class="d-block">Comunidad</a>
-    <a href="/events" class="d-block">Eventos</a>
-    <a href="/reglamento" class="d-block">Reglamento</a>
-  </div>
-
-
-  <div id="toggleContainer">
-
-    <a class="d-block overflow-hidden" id="navToggle">
-      <div class="notHoverContainer d-block overflow-hidden" style="height: 5vh;">
-        <i class="fa-solid fa-bars d-block notHover"></i>
+  <div class="md:hidden hidden absolute top-full left-0 right-0 bg-background-dark border-b border-border-dark" id="mobileMenu">
+    <div class="px-6 py-4 flex flex-col text-center">
+      <a class="text-sm font-medium text-white py-3 border-b border-border-dark" href="/">Inicio</a>
+      <a class="text-sm font-medium text-white py-3 border-b border-border-dark" href="/#partners">Colaboradores</a>
+      <a class="text-sm font-medium text-white py-3 border-b border-border-dark" href="/#staff">Staff</a>
+      <a class="text-sm font-medium text-white py-3 border-b border-border-dark" href="/#community">Comunidad</a>
+      <a class="text-sm font-medium text-white py-3 border-b border-border-dark" href="/events">Eventos</a>
+      <a class="text-sm font-medium text-white py-3 border-b border-border-dark" href="/reglamento">Reglamento</a>
+      <div class="pt-4">
+        <a class="bg-primary hover:bg-red-700 text-white text-sm font-bold px-5 py-2.5 rounded-lg shadow-lg shadow-primary/20 transition-all inline-flex items-center gap-2 justify-center" href="{{ site.whatsapp }}" target="_blank">
+          <span>Unirse</span>
+          <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+        </a>
       </div>
-      <div class="inHoverContainer">
-        <i class="fa-solid fa-x d-block inHover"></i>
-
-      </div>
-    </a>
+    </div>
   </div>
-</nav>
+</header>
+
+<script>
+  const mobileToggle = document.getElementById('mobileMenuToggle');
+  const mobileMenu = document.getElementById('mobileMenu');
+
+  if (mobileToggle && mobileMenu) {
+    mobileToggle.addEventListener('click', () => {
+      const isOpen = mobileToggle.getAttribute('aria-expanded') === 'true';
+      mobileToggle.setAttribute('aria-expanded', String(!isOpen));
+      mobileMenu.classList.toggle('hidden', isOpen);
+    });
+
+    mobileMenu.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.add('hidden');
+        mobileToggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+  }
+</script>

@@ -1,179 +1,281 @@
 ---
 ---
 <!DOCTYPE html>
-<html lang="es">
+<html class="dark" lang="es">
 
 <head>
   <title>SaltaDev - Reglamento de Conducta</title>
-  {% include head-imports.html %}
-  <link rel="stylesheet" href="/assets/css/pages/reglamento.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="/assets/img/icons/favicon.ico" type="image/x-icon">
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#94413d",
+            "background-light": "#f7f6f6",
+            "background-dark": "#181013",
+            "surface-dark": "#23181b",
+            "border-dark": "#3a2a2d"
+          },
+          fontFamily: {
+            "display": ["Space Grotesk", "sans-serif"],
+            "sans": ["Space Grotesk", "sans-serif"],
+          }
+        },
+      },
+    }
+  </script>
   <style>
-    header {
-      padding: 15vh 0 10vh;
-      background: linear-gradient(195deg, rgba(0, 0, 0, 0.97), rgba(0, 0, 0, 0.9)), url(/assets/img/backgrounds/featureBG.webp);
-      background-size: cover;
-      background-position: center;
-      min-height: 60vh;
-      display: flex;
-      align-items: center;
+    .glass {
+      background: rgba(24, 16, 19, 0.7);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
     }
-    
-    header .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 30px;
+
+    .poncho-accent {
+      background: repeating-linear-gradient(
+        90deg,
+        #94413d,
+        #94413d 20px,
+        #181013 20px,
+        #181013 40px,
+        #7a3431 40px,
+        #7a3431 50px,
+        #181013 50px,
+        #181013 70px
+      );
+      height: 4px;
       width: 100%;
     }
-    
-    .header-content {
-      text-align: center;
-      margin: 0 auto;
-      max-width: 900px;
-    }
-    
-    header h1 {
-      text-align: center;
-      font-size: 5vh;
-      margin-bottom: 3vh;
-      color: white;
-    }
-    
-    header h2 {
-      text-align: center;
-      font-size: 3vh;
-      margin-bottom: 2vh;
-      color: white;
-    }
-    
-    header p {
-      text-align: center;
-      font-size: 2vh;
-      margin-bottom: 3vh;
-      color: white;
-    }
-    
-    .headerButton {
-      display: inline-block;
-      margin-top: 2vh;
-    }
-    
-    .background-effects {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-      pointer-events: none;
-      z-index: 1;
+
+    .scroll-mt-32 {
+      scroll-margin-top: 8rem;
     }
   </style>
 </head>
 
-<body>
+<body class="bg-background-light dark:bg-background-dark text-white font-display antialiased">
 
   {% include nav.html %}
 
-  <header>
-    <div class="container">
-      <div class="header-content">
-        <h1><b>REGLAMENTO</b> DE CONDUCTA</h1>
-        <h2>Normas para crear un ambiente seguro y respetuoso para toda nuestra comunidad</h2>
-        <p>Este código de conducta establece los lineamientos para la participación en la comunidad SaltaDev, con el objetivo de fomentar un entorno inclusivo, colaborativo y libre de acoso para todos los miembros.</p>
-        <a href="#contact" class="headerButton">¡Contáctanos!</a>
+  <main class="pt-24 pb-20">
+    <section class="relative overflow-hidden border-b border-border-dark -mt-24 pt-24">
+      <div class="absolute inset-0 bg-cover bg-center blur-sm scale-105" style="background-image: url('/assets/img/backgrounds/featureBG.webp');" aria-hidden="true"></div>
+      <div class="absolute inset-0 bg-gradient-to-b from-black/85 via-black/75 to-background-dark" aria-hidden="true"></div>
+      <div class="relative z-10 max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight">Reglamento de Conducta</h1>
+        <p class="text-lg md:text-xl text-white/80 max-w-2xl mt-4">
+          Normas para crear un ambiente seguro y respetuoso para toda nuestra comunidad.
+        </p>
+        <p class="text-white/80 max-w-3xl mt-4">
+          Este código de conducta establece los lineamientos para la participación en la comunidad SaltaDev, con el objetivo de fomentar un entorno inclusivo, colaborativo y libre de acoso para todos los miembros.
+        </p>
+      </div>
+    </section>
+
+    <div class="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 pt-12">
+      <div class="grid lg:grid-cols-12 gap-10">
+        <aside class="lg:col-span-3 hidden lg:block">
+          <div class="sticky top-28 flex flex-col gap-6">
+            <nav class="flex flex-col gap-1 border-l border-border-dark pl-4">
+              <a class="toc-link group flex items-center gap-3 py-2 text-primary font-medium transition-all" href="#proposito">
+                <span class="text-sm">01</span>
+                <span class="text-base">Propósito</span>
+              </a>
+              <a class="toc-link group flex items-center gap-3 py-2 text-white/70 hover:text-white transition-all hover:pl-2" href="#comportamiento">
+                <span class="text-sm opacity-50">02</span>
+                <span class="text-base">Comportamiento Esperado</span>
+              </a>
+              <a class="toc-link group flex items-center gap-3 py-2 text-white/70 hover:text-white transition-all hover:pl-2" href="#inaceptable">
+                <span class="text-sm opacity-50">03</span>
+                <span class="text-base">Comportamiento Inaceptable</span>
+              </a>
+              <a class="toc-link group flex items-center gap-3 py-2 text-white/70 hover:text-white transition-all hover:pl-2" href="#consecuencias">
+                <span class="text-sm opacity-50">04</span>
+                <span class="text-base">Consecuencias</span>
+              </a>
+              <a class="toc-link group flex items-center gap-3 py-2 text-white/70 hover:text-white transition-all hover:pl-2" href="#reportar">
+                <span class="text-sm opacity-50">05</span>
+                <span class="text-base">Directrices para Reportar</span>
+              </a>
+              <a class="toc-link group flex items-center gap-3 py-2 text-white/70 hover:text-white transition-all hover:pl-2" href="#alcance">
+                <span class="text-sm opacity-50">06</span>
+                <span class="text-base">Alcance</span>
+              </a>
+              <a class="toc-link group flex items-center gap-3 py-2 text-white/70 hover:text-white transition-all hover:pl-2" href="#contacto">
+                <span class="text-sm opacity-50">07</span>
+                <span class="text-base">Contacto</span>
+              </a>
+            </nav>
+          </div>
+        </aside>
+
+        <div class="lg:col-span-9 flex flex-col gap-12">
+          <section class="scroll-mt-32" id="proposito">
+            <div class="flex items-center gap-4 mb-6">
+              <span class="text-primary font-bold text-lg">01.</span>
+              <div class="h-px bg-border-dark flex-grow"></div>
+            </div>
+            <h2 class="text-3xl font-bold mb-6">Propósito</h2>
+            <p class="text-white/80 leading-relaxed mb-4">
+              El propósito principal de SaltaDev es crear una comunidad inclusiva donde todos los participantes se sientan bienvenidos y seguros. Valoramos la participación de cada miembro y queremos que todos tengan una experiencia agradable y enriquecedora. En consecuencia, se espera que todos los participantes muestren respeto y cortesía hacia los demás a lo largo de su participación en la comunidad.
+            </p>
+            <p class="text-white/80 leading-relaxed">
+              Este código de conducta establece nuestras expectativas para todos los que participan en nuestra comunidad, así como las consecuencias de un comportamiento inaceptable.
+            </p>
+          </section>
+
+          <section class="scroll-mt-32" id="comportamiento">
+            <div class="flex items-center gap-4 mb-6">
+              <span class="text-primary font-bold text-lg">02.</span>
+              <div class="h-px bg-border-dark flex-grow"></div>
+            </div>
+            <h2 class="text-3xl font-bold mb-6">Comportamiento Esperado</h2>
+            <p class="text-white/80 mb-4">Los siguientes comportamientos se esperan y se solicitan de todos los miembros de la comunidad:</p>
+            <ul class="space-y-3">
+              <li class="flex items-start gap-3"><span class="material-symbols-outlined text-primary text-xl">check_circle</span><span>Participar de manera auténtica y activa.</span></li>
+              <li class="flex items-start gap-3"><span class="material-symbols-outlined text-primary text-xl">check_circle</span><span>Ejercer la consideración y el respeto en el habla y las acciones.</span></li>
+              <li class="flex items-start gap-3"><span class="material-symbols-outlined text-primary text-xl">check_circle</span><span>Intentar la colaboración antes del conflicto.</span></li>
+              <li class="flex items-start gap-3"><span class="material-symbols-outlined text-primary text-xl">check_circle</span><span>Abstenerse de comportamientos y discursos denigrantes, discriminatorios o acosadores.</span></li>
+              <li class="flex items-start gap-3"><span class="material-symbols-outlined text-primary text-xl">check_circle</span><span>Ser consciente de su entorno y de sus compañeros participantes.</span></li>
+              <li class="flex items-start gap-3"><span class="material-symbols-outlined text-primary text-xl">check_circle</span><span>Alertar a los líderes de la comunidad si nota una situación peligrosa, alguien en peligro, o violaciones de este Código de Conducta.</span></li>
+            </ul>
+          </section>
+
+          <section class="scroll-mt-32" id="inaceptable">
+            <div class="flex items-center gap-4 mb-6">
+              <span class="text-primary font-bold text-lg">03.</span>
+              <div class="h-px bg-border-dark flex-grow"></div>
+            </div>
+            <h2 class="text-3xl font-bold mb-6">Comportamiento Inaceptable</h2>
+            <p class="text-white/80 mb-4">Los siguientes comportamientos se consideran acoso y son inaceptables dentro de nuestra comunidad:</p>
+            <ul class="space-y-3">
+              <li class="flex items-start gap-3"><span class="material-symbols-outlined text-red-500 text-xl">block</span><span>Comentarios ofensivos relacionados con género, identidad y expresión de género, orientación sexual, discapacidad, enfermedad mental, capacidad neurotípica, apariencia física, tamaño corporal, edad, raza, o religión.</span></li>
+              <li class="flex items-start gap-3"><span class="material-symbols-outlined text-red-500 text-xl">block</span><span>Comentarios no deseados sobre las elecciones y prácticas de estilo de vida de una persona, incluyendo aquellos relacionados con alimentos, salud, crianza de los hijos, drogas y empleo.</span></li>
+              <li class="flex items-start gap-3"><span class="material-symbols-outlined text-red-500 text-xl">block</span><span>Insultos o bromas deliberadas.</span></li>
+              <li class="flex items-start gap-3"><span class="material-symbols-outlined text-red-500 text-xl">block</span><span>Lenguaje o imágenes sexuales gratuitas o fuera de tema en espacios donde no son apropiados.</span></li>
+              <li class="flex items-start gap-3"><span class="material-symbols-outlined text-red-500 text-xl">block</span><span>Contacto físico sin consentimiento o después de una solicitud de detención.</span></li>
+              <li class="flex items-start gap-3"><span class="material-symbols-outlined text-red-500 text-xl">block</span><span>Amenazas de violencia.</span></li>
+              <li class="flex items-start gap-3"><span class="material-symbols-outlined text-red-500 text-xl">block</span><span>Incitación a la violencia hacia cualquier individuo, incluyendo alentar a una persona a suicidarse o a hacerse daño a sí misma.</span></li>
+              <li class="flex items-start gap-3"><span class="material-symbols-outlined text-red-500 text-xl">block</span><span>Intimidación deliberada.</span></li>
+              <li class="flex items-start gap-3"><span class="material-symbols-outlined text-red-500 text-xl">block</span><span>Acecho o seguimiento.</span></li>
+              <li class="flex items-start gap-3"><span class="material-symbols-outlined text-red-500 text-xl">block</span><span>Fotografía o grabación acosadora, incluyendo registro de actividad online para propósitos de acoso.</span></li>
+              <li class="flex items-start gap-3"><span class="material-symbols-outlined text-red-500 text-xl">block</span><span>Interrupción sostenida de eventos físicos o discusiones en línea.</span></li>
+              <li class="flex items-start gap-3"><span class="material-symbols-outlined text-red-500 text-xl">block</span><span>Atención sexual no deseada.</span></li>
+              <li class="flex items-start gap-3"><span class="material-symbols-outlined text-red-500 text-xl">block</span><span>Patrón de contacto social inapropiado, como solicitar/asumir niveles inapropiados de intimidad con otros.</span></li>
+              <li class="flex items-start gap-3"><span class="material-symbols-outlined text-red-500 text-xl">block</span><span>Continuación de comunicación uno-a-uno después de solicitudes de cese.</span></li>
+              <li class="flex items-start gap-3"><span class="material-symbols-outlined text-red-500 text-xl">block</span><span>Publicar o amenazar con publicar información de identificación personal de otros sin su permiso explícito.</span></li>
+              <li class="flex items-start gap-3"><span class="material-symbols-outlined text-red-500 text-xl">block</span><span>Publicación de comunicaciones privadas sin consentimiento.</span></li>
+              <li class="flex items-start gap-3"><span class="material-symbols-outlined text-red-500 text-xl">block</span><span>Cualquier conducta que razonablemente podría considerarse inapropiada en un entorno profesional.</span></li>
+            </ul>
+          </section>
+
+          <section class="scroll-mt-32" id="consecuencias">
+            <div class="flex items-center gap-4 mb-6">
+              <span class="text-primary font-bold text-lg">04.</span>
+              <div class="h-px bg-border-dark flex-grow"></div>
+            </div>
+            <h2 class="text-3xl font-bold mb-6">Consecuencias de Comportamiento Inaceptable</h2>
+            <p class="text-white/80 leading-relaxed mb-4">El comportamiento inaceptable de cualquier miembro de la comunidad no será tolerado.</p>
+            <p class="text-white/80 leading-relaxed mb-4">Se espera que las personas a las que se les pida detener cualquier comportamiento inaceptable cumplan inmediatamente.</p>
+            <p class="text-white/80 leading-relaxed">Si un miembro de la comunidad se involucra en un comportamiento inaceptable, los organizadores de la comunidad pueden tomar cualquier acción que consideren apropiada, incluyendo una prohibición temporal o expulsión permanente de la comunidad sin advertencia.</p>
+          </section>
+
+          <section class="scroll-mt-32" id="reportar">
+            <div class="flex items-center gap-4 mb-6">
+              <span class="text-primary font-bold text-lg">05.</span>
+              <div class="h-px bg-border-dark flex-grow"></div>
+            </div>
+            <h2 class="text-3xl font-bold mb-6">Directrices para Reportar</h2>
+            <p class="text-white/80 leading-relaxed mb-4">Si estás experimentando o presenciando un comportamiento inaceptable, o tienes otras preocupaciones, por favor notifica a los organizadores de la comunidad tan pronto como sea posible.</p>
+            <p class="text-white/80 leading-relaxed">Adicionalmente, los organizadores de la comunidad están disponibles para ayudar a los miembros de la comunidad a comprometerse con las fuerzas del orden locales o para ayudar a aquellos que experimentan un comportamiento inaceptable a sentirse seguros.</p>
+          </section>
+
+          <section class="scroll-mt-32" id="alcance">
+            <div class="flex items-center gap-4 mb-6">
+              <span class="text-primary font-bold text-lg">06.</span>
+              <div class="h-px bg-border-dark flex-grow"></div>
+            </div>
+            <h2 class="text-3xl font-bold mb-6">Alcance</h2>
+            <p class="text-white/80 leading-relaxed">Esperamos que todos los participantes de la comunidad (miembros, colaboradores, patrocinadores y otros invitados) cumplan con este código de conducta en todos los espacios de la comunidad, así como en todas las comunicaciones uno-a-uno pertinentes a los asuntos de la comunidad.</p>
+          </section>
+
+          <section class="scroll-mt-32" id="contacto">
+            <div class="flex items-center gap-4 mb-6">
+              <span class="text-primary font-bold text-lg">07.</span>
+              <div class="h-px bg-border-dark flex-grow"></div>
+            </div>
+            <h2 class="text-3xl font-bold mb-6">Contacto</h2>
+            <p class="text-white/80 mb-4">Para contactar con los organizadores sobre este código de conducta, puedes comunicarte a través de los siguientes medios:</p>
+            <div class="grid md:grid-cols-3 gap-4">
+              <a class="flex items-center justify-between p-4 rounded-xl bg-surface-dark border border-border-dark hover:border-primary transition-colors" href="mailto:info@salta.dev">
+                <span class="text-sm font-medium">info@salta.dev</span>
+                <span class="material-symbols-outlined text-base">mail</span>
+              </a>
+              <a class="flex items-center justify-between p-4 rounded-xl bg-surface-dark border border-border-dark hover:border-primary transition-colors" href="https://discord.com/invite/kqzWbStGQ6" target="_blank">
+                <span class="text-sm font-medium">Discord</span>
+                <span class="material-symbols-outlined text-base">open_in_new</span>
+              </a>
+              <a class="flex items-center justify-between p-4 rounded-xl bg-surface-dark border border-border-dark hover:border-primary transition-colors" href="https://chat.whatsapp.com/Kxy7Kl87lWf0Ta1rhKdoE3" target="_blank">
+                <span class="text-sm font-medium">WhatsApp</span>
+                <span class="material-symbols-outlined text-base">open_in_new</span>
+              </a>
+            </div>
+          </section>
+        </div>
       </div>
     </div>
-    
-    <div class="background-effects">
-      <div style="position:absolute; top:0; left:50%; filter: blur(5vh); width: 200vh; height: 200vh; background: radial-gradient(closest-side, rgba(255, 0, 0, 0.178), transparent); transform: translate(-50%, 0); z-index: -1;"></div>
-      <div style="position:absolute; top:0; left:50%; filter: blur(5vh); width: 400vh; height: 400vh; background: radial-gradient(closest-side, rgba(255, 0, 0, 0.171), transparent); transform: translate(-50%, 0); z-index: -1;"></div>
-    </div>
-  </header>
-
-  <section id="reglamento">
-    <div class="row">
-      <div class="col-12">
-        <h1>Reglamento de <b>Conducta Interno</b></h1>
-      </div>
-
-      <div class="col-12 reglamentoSection">
-        <h2>1. Propósito</h2>
-        <p>El propósito principal de SaltaDev es crear una comunidad inclusiva donde todos los participantes se sientan bienvenidos y seguros. Valoramos la participación de cada miembro y queremos que todos tengan una experiencia agradable y enriquecedora. En consecuencia, se espera que todos los participantes muestren respeto y cortesía hacia los demás a lo largo de su participación en la comunidad.</p>
-        <p>Este código de conducta establece nuestras expectativas para todos los que participan en nuestra comunidad, así como las consecuencias de un comportamiento inaceptable.</p>
-      </div>
-
-      <div class="col-12 reglamentoSection">
-        <h2>2. Comportamiento Esperado</h2>
-        <p>Los siguientes comportamientos se esperan y se solicitan de todos los miembros de la comunidad:</p>
-        <ul>
-          <li>Participar de manera auténtica y activa.</li>
-          <li>Ejercer la consideración y el respeto en el habla y las acciones.</li>
-          <li>Intentar la colaboración antes del conflicto.</li>
-          <li>Abstenerse de comportamientos y discursos denigrantes, discriminatorios o acosadores.</li>
-          <li>Ser consciente de su entorno y de sus compañeros participantes.</li>
-          <li>Alertar a los líderes de la comunidad si nota una situación peligrosa, alguien en peligro, o violaciones de este Código de Conducta.</li>
-        </ul>
-      </div>
-
-      <div class="col-12 reglamentoSection">
-        <h2>3. Comportamiento Inaceptable</h2>
-        <p>Los siguientes comportamientos se consideran acoso y son inaceptables dentro de nuestra comunidad:</p>
-        <ul>
-          <li>Comentarios ofensivos relacionados con género, identidad y expresión de género, orientación sexual, discapacidad, enfermedad mental, capacidad neurotípica, apariencia física, tamaño corporal, edad, raza, o religión.</li>
-          <li>Comentarios no deseados sobre las elecciones y prácticas de estilo de vida de una persona, incluyendo aquellos relacionados con alimentos, salud, crianza de los hijos, drogas y empleo.</li>
-          <li>Insultos o bromas deliberadas.</li>
-          <li>Lenguaje o imágenes sexuales gratuitas o fuera de tema en espacios donde no son apropiados.</li>
-          <li>Contacto físico sin consentimiento o después de una solicitud de detención.</li>
-          <li>Amenazas de violencia.</li>
-          <li>Incitación a la violencia hacia cualquier individuo, incluyendo alentar a una persona a suicidarse o a hacerse daño a sí misma.</li>
-          <li>Intimidación deliberada.</li>
-          <li>Acecho o seguimiento.</li>
-          <li>Fotografía o grabación acosadora, incluyendo registro de actividad online para propósitos de acoso.</li>
-          <li>Interrupción sostenida de eventos físicos o discusiones en línea.</li>
-          <li>Atención sexual no deseada.</li>
-          <li>Patrón de contacto social inapropiado, como solicitar/asumir niveles inapropiados de intimidad con otros.</li>
-          <li>Continuación de comunicación uno-a-uno después de solicitudes de cese.</li>
-          <li>Publicar o amenazar con publicar información de identificación personal de otros sin su permiso explícito.</li>
-          <li>Publicación de comunicaciones privadas sin consentimiento.</li>
-          <li>Cualquier conducta que razonablemente podría considerarse inapropiada en un entorno profesional.</li>
-        </ul>
-      </div>
-
-      <div class="col-12 reglamentoSection">
-        <h2>4. Consecuencias de Comportamiento Inaceptable</h2>
-        <p>El comportamiento inaceptable de cualquier miembro de la comunidad no será tolerado.</p>
-        <p>Se espera que las personas a las que se les pida detener cualquier comportamiento inaceptable cumplan inmediatamente.</p>
-        <p>Si un miembro de la comunidad se involucra en un comportamiento inaceptable, los organizadores de la comunidad pueden tomar cualquier acción que consideren apropiada, incluyendo una prohibición temporal o expulsión permanente de la comunidad sin advertencia.</p>
-      </div>
-
-      <div class="col-12 reglamentoSection">
-        <h2>5. Directrices para Reportar</h2>
-        <p>Si estás experimentando o presenciando un comportamiento inaceptable, o tienes otras preocupaciones, por favor notifica a los organizadores de la comunidad tan pronto como sea posible.</p>
-        <p>Adicionalmente, los organizadores de la comunidad están disponibles para ayudar a los miembros de la comunidad a comprometerse con las fuerzas del orden locales o para ayudar a aquellos que experimentan un comportamiento inaceptable a sentirse seguros.</p>
-      </div>
-
-      <div class="col-12 reglamentoSection">
-        <h2>6. Alcance</h2>
-        <p>Esperamos que todos los participantes de la comunidad (miembros, colaboradores, patrocinadores y otros invitados) cumplan con este código de conducta en todos los espacios de la comunidad, así como en todas las comunicaciones uno-a-uno pertinentes a los asuntos de la comunidad.</p>
-      </div>
-
-      <div class="col-12 reglamentoSection">
-        <h2>7. Contacto</h2>
-        <p>Para contactar con los organizadores sobre este código de conducta, puedes comunicarte a través de los siguientes medios:</p>
-        <ul>
-          <li>Email: <a href="mailto:info@salta.dev">info@salta.dev</a></li>
-          <li>Discord: <a href="https://discord.com/invite/kqzWbStGQ6" target="_blank">Enlace de invitación a la comunidad en Discord</a></li>
-          <li>WhatsApp: <a href="https://chat.whatsapp.com/Kxy7Kl87lWf0Ta1rhKdoE3" target="_blank">Enlace de invitación a la comunidad en WhatsApp</a></li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  {% include contact.html %}
+  </main>
 
   {% include footer.html %}
 
   {% include scripts/body-scripts.html %}
+
+  <script>
+    const tocLinks = Array.from(document.querySelectorAll('.toc-link'));
+    const tocSections = tocLinks
+      .map((link) => document.querySelector(link.getAttribute('href')))
+      .filter(Boolean);
+
+    const setActiveToc = (activeId) => {
+      tocLinks.forEach((link) => {
+        const isActive = link.getAttribute('href') === `#${activeId}`;
+        link.classList.toggle('text-primary', isActive);
+        link.classList.toggle('font-medium', isActive);
+        link.classList.toggle('text-white/70', !isActive);
+      });
+    };
+
+    if (tocSections.length) {
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              setActiveToc(entry.target.id);
+            }
+          });
+        },
+        { rootMargin: '-20% 0px -60% 0px', threshold: 0.1 }
+      );
+
+      tocSections.forEach((section) => observer.observe(section));
+
+      tocLinks.forEach((link) => {
+        link.addEventListener('click', () => {
+          const targetId = link.getAttribute('href')?.slice(1);
+          if (targetId) setActiveToc(targetId);
+        });
+      });
+    }
+  </script>
 
 </body>
 

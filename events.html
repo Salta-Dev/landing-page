@@ -2,149 +2,404 @@
 scripts: ['events']
 ---
 <!DOCTYPE html>
-<html lang="es">
+<html class="dark" lang="es">
 
 <head>
-  <title>SaltaDev - Comunidad de Desarrolladores</title>
-  {% include head-imports.html %}
-  <link rel="stylesheet" href="/assets/css/pages/events.css">
+  <title>SaltaDev - Eventos</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="/assets/img/icons/favicon.ico" type="image/x-icon">
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#94413d",
+            "background-light": "#f7f6f6",
+            "background-dark": "#181013",
+            "surface-dark": "#23181b",
+            "border-dark": "#3a2a2d",
+            "text-muted": "#c4b5b3"
+          },
+          fontFamily: {
+            "display": ["Space Grotesk", "sans-serif"],
+            "sans": ["Space Grotesk", "sans-serif"],
+          },
+          borderRadius: {
+            "DEFAULT": "0.5rem",
+            "lg": "1rem",
+            "xl": "1.5rem",
+            "full": "9999px"
+          },
+          backgroundImage: {
+            "poncho-pattern": "url(\"data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%2394413d' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\")"
+          }
+        },
+      },
+    }
+  </script>
+  <style>
+    .glass {
+      background: rgba(24, 16, 19, 0.7);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    .animated-bg {
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    .animated-bg::before {
+      content: "";
+      position: fixed;
+      inset: -20%;
+      z-index: 0;
+      opacity: 0.35;
+      background: linear-gradient(120deg, rgba(148, 65, 61, 0.35), rgba(24, 16, 19, 0.1), rgba(148, 65, 61, 0.25));
+      background-size: 200% 200%;
+      animation: gradient-drift 18s ease-in-out infinite;
+      pointer-events: none;
+      transform: translateZ(0);
+    }
+
+    @keyframes gradient-drift {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    .countdown-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    .countdown-number {
+      position: relative;
+      height: 80px;
+      border-radius: 16px;
+      background: #23181b;
+      border: 1px solid #3a2a2d;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .countdown-number span {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 2rem;
+      font-weight: 700;
+      color: #ffffff;
+    }
+
+    .new {
+      animation: show-new 0.35s cubic-bezier(0, 0.9, 0.5, 1.2) forwards;
+    }
+
+    .old {
+      animation: hide-old 0.9s cubic-bezier(0, 0.9, 0.56, 1.2) forwards;
+    }
+
+    #js-days::after,
+    #js-hours::after,
+    #js-minutes::after,
+    #js-seconds::after {
+      content: "DÍAS";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -26px;
+      text-align: center;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #c4b5b3;
+    }
+
+    #js-hours::after {
+      content: "HORAS";
+    }
+
+    #js-minutes::after {
+      content: "MINUTOS";
+    }
+
+    #js-seconds::after {
+      content: "SEGUNDOS";
+    }
+
+    @keyframes show-new {
+      0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) translateY(-1rem) scale(0.9);
+      }
+      100% {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+      }
+    }
+
+    @keyframes hide-old {
+      0% {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+      }
+      100% {
+        opacity: 0;
+        transform: translate(-50%, -50%) translateY(-1.5rem) scale(0.9);
+      }
+    }
+
+    @media (max-width: 640px) {
+      .countdown-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .countdown-number {
+        height: 70px;
+      }
+
+      .countdown-number span {
+        font-size: 1.6rem;
+      }
+
+      #js-days::after,
+      #js-hours::after,
+      #js-minutes::after,
+      #js-seconds::after {
+        bottom: -22px;
+        font-size: 0.6rem;
+      }
+    }
+
+    .events-collapsed {
+      position: relative;
+      max-height: 1100px;
+      overflow: hidden;
+    }
+
+    .events-collapsed::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 180px;
+      background: linear-gradient(180deg, rgba(24, 16, 19, 0) 0%, rgba(24, 16, 19, 0.85) 70%, rgba(24, 16, 19, 1) 100%);
+      pointer-events: none;
+    }
+
+    .events-expanded {
+      max-height: none;
+    }
+
+    .events-expanded::after {
+      display: none;
+    }
+  </style>
 </head>
 
-<body>
+<body class="bg-background-light dark:bg-background-dark text-white font-display transition-colors duration-300 antialiased overflow-x-hidden animated-bg">
+
+  {% assign sorted_events = site.events | sort: "date" | reverse %}
+  {% assign upcoming_events = sorted_events | where_exp: "event", "event.date >= site.time" %}
+  {% assign latest_event = upcoming_events.first %}
 
   {% include nav.html %}
 
-  <!-- {% include globalDecorator.html %} -->
+  <main class="pt-24 pb-16">
+    <div class="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
+      <div id="currentEventDate" style="display: none;">{% if latest_event %}{{ latest_event.event_start_date }}{% endif %}</div>
 
-  {% assign sorted_events = site.events | sort: "date" | reverse %}
-  {% assign latest_event = sorted_events.first %}
+      <section class="py-8 lg:py-14">
+        <div class="grid lg:grid-cols-12 gap-10 items-start">
+          <div class="lg:col-span-7">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface-dark border border-border-dark mb-6">
+              <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+              <span class="text-xs font-medium text-white uppercase tracking-wide">Agenda SaltaDev</span>
+            </div>
 
+            <h1 class="text-3xl md:text-4xl font-bold text-white tracking-tight {% unless latest_event %}hidden{% endunless %}" id="originalTitle">EL PRÓXIMO EVENTO COMIENZA EN</h1>
 
-
-  <div id="currentEventDate" style="display: none;">{{latest_event.event_start_date}}</div>
-
-  <header>
-    <div class="row">
-      <div class="col-12 mainContent" style="position: relative; z-index: 10; display: flex; justify-content: center; align-items: center; height: 100%;">
-        <div>
-          <h1 id="originalTitle">EL <b>PRÓXIMO</b> EVENTO COMIENZA EN</h1>
-          <div id="noEventTitle" style="display: none;">
-            <h1>NO HAY EVENTOS DISPONIBLES <b>ACTUALMENTE</b></h1>
-            <div class="row subRow">
-              <div class="col-8">
-                <h2>
-                  ¡No te preocupes! Pronto tendremos más eventos para ti.
-                </h2>
-                <p>
-                  Mientras tanto, te invitamos a explorar nuestros eventos pasados y a unirte a nuestra comunidad. Si tienes un evento en mente, no dudes en compartirlo con nosotros o en invitarnos a participar. Este es un espacio abierto para toda la comunidad, y todas las propuestas son bienvenidas.
-                </p>
+            <div id="noEventTitle" class="mt-6 {% if latest_event %}hidden{% endif %}">
+              <h2 class="text-2xl md:text-3xl font-bold text-white">No hay eventos disponibles actualmente</h2>
+              <p class="text-white mt-3 leading-relaxed">
+                Estamos preparando nuevas experiencias para la comunidad. Si tenés una propuesta, escribinos y la sumamos al calendario.
+              </p>
+              <div class="mt-6 flex flex-wrap gap-3">
+                <a class="bg-primary hover:bg-red-700 text-white font-bold px-6 py-3 rounded-lg shadow-lg shadow-primary/20 transition-all" href="mailto:comusaltadev@gmail.com">Contactar al equipo</a>
+                <a class="border border-white/60 text-white font-bold px-6 py-3 rounded-lg hover:border-primary hover:text-primary transition-all" href="{{ site.whatsapp }}" target="_blank">Unirse al grupo</a>
               </div>
-              <div class="col-4">
-                <div class="headerButtons">
-                  <a href="#contact" class="headerButton">¡Contáctanos!</a>
+            </div>
+
+            <section class="mt-8 {% unless latest_event %}hidden{% endunless %}" id="wrapper">
+              <section id="countdown-container" class="countdown-container">
+                <article id="js-countdown" class="countdown-grid">
+                  <section id="js-days" class="countdown-number"></section>
+                  <section id="js-hours" class="countdown-number"></section>
+                  <section id="js-minutes" class="countdown-number"></section>
+                  <section id="js-seconds" class="countdown-number"></section>
+                </article>
+              </section>
+            </section>
+
+            <div class="mt-8 flex flex-col gap-4 {% unless latest_event %}hidden{% endunless %}" id="buttonsHead">
+              <div class="flex items-center gap-2 text-white text-sm font-bold uppercase tracking-wider">
+                <span class="material-symbols-outlined text-base">calendar_today</span>
+                {% if latest_event %}
+                  <span>{{ latest_event.event_date_parsed }} · {{ latest_event.event_hours_parsed }}</span>
+                {% endif %}
+              </div>
+              <h2 class="text-2xl md:text-3xl font-bold text-white">{% if latest_event %}{{ latest_event.title }}{% endif %}</h2>
+              <p class="text-white leading-relaxed">{% if latest_event %}{{ latest_event.description }}{% endif %}</p>
+              {% if latest_event %}
+                <div class="flex flex-wrap gap-3">
+                  <a class="bg-primary hover:bg-red-700 text-white font-bold px-6 py-3 rounded-lg shadow-lg shadow-primary/20 transition-all" href="{{ latest_event.link }}" target="_blank">Inscribirse</a>
+                  <a class="border border-white/60 text-white font-bold px-6 py-3 rounded-lg hover:border-primary hover:text-primary transition-all" href="#events-grid">Ver más eventos</a>
+                </div>
+              {% endif %}
+            </div>
+          </div>
+
+          {% if latest_event %}
+            <div class="lg:col-span-5">
+              <div class="group relative rounded-2xl bg-surface-dark border border-border-dark overflow-hidden shadow-2xl hover:border-primary/50 transition-all duration-300">
+                <div class="absolute top-0 right-0 w-36 h-36 bg-primary/20 blur-[70px] rounded-full pointer-events-none"></div>
+                <div class="h-56 bg-cover bg-center relative" style="background-image: url('{{ latest_event.photo }}');">
+                  <div class="absolute inset-0 bg-gradient-to-t from-surface-dark via-transparent to-transparent"></div>
+                  <div class="absolute top-4 left-4 bg-primary text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow-lg">Featured</div>
+                </div>
+                <div class="p-6 md:p-7 flex flex-col gap-4">
+                  <div class="flex items-center gap-2 text-white text-sm">
+                    <span class="material-symbols-outlined text-base">location_on</span>
+                    <span>{{ latest_event.location }}</span>
+                  </div>
+                  <h3 class="text-2xl font-bold text-white group-hover:text-primary transition-colors">{{ latest_event.title }}</h3>
+                  <p class="text-white leading-relaxed">{{ latest_event.description }}</p>
                 </div>
               </div>
             </div>
-          </div>
+          {% endif %}
+        </div>
+      </section>
 
-          <section class="wrapper" id="wrapper">
-            <section id="countdown-container" class="countdown-container">
-              <article id="js-countdown" class="countdown">
-                <section id="js-days" class="number"></section>
-                <!-- <section id="js-separator" class="separator">:</section> -->
-                <section id="js-hours" class="number"></section>
-                <!-- <section id="js-separator" class="separator">:</section> -->
-                <section id="js-minutes" class="number"></section>
-                <!-- <section id="js-separator" class="separator">:</section> -->
-                <section id="js-seconds" class="number"></section>
+      <section class="py-12 border-t border-border-dark" id="events-grid">
+        <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-10">
+          <div>
+            <h2 class="text-3xl md:text-4xl font-bold text-white">Calendario de eventos</h2>
+            <p class="text-white mt-2">Explorá workshops, charlas y encuentros para la comunidad.</p>
+          </div>
+          <a class="text-primary hover:text-primary font-bold flex items-center gap-2" href="{{ site.whatsapp }}" target="_blank">
+            Recibir novedades
+            <span class="material-symbols-outlined">arrow_forward</span>
+          </a>
+        </div>
+
+        {% if sorted_events.size == 0 %}
+          <div class="bg-surface-dark border border-dashed border-border-dark rounded-2xl p-10 text-center">
+            <div class="inline-flex items-center justify-center w-14 h-14 rounded-full bg-background-dark border border-border-dark mb-4">
+              <span class="material-symbols-outlined text-3xl text-text-muted">event_busy</span>
+            </div>
+            <h3 class="text-2xl font-bold text-white mb-2">No hay eventos programados</h3>
+            <p class="text-white mb-6">Sumate a nuestra comunidad y enterate cuando publiquemos el próximo encuentro.</p>
+            <a class="bg-primary hover:bg-red-700 text-white font-bold px-6 py-3 rounded-lg shadow-lg shadow-primary/20 transition-all" href="{{ site.whatsapp }}" target="_blank">Unirme al canal</a>
+          </div>
+        {% else %}
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 {% if sorted_events.size > 6 %}events-collapsed{% endif %}" id="eventsList">
+            {% for event in sorted_events %}
+              <article class="group flex flex-col bg-surface-dark border border-border-dark rounded-xl overflow-hidden hover:shadow-[0_4px_20px_rgba(0,0,0,0.4)] transition-all duration-300 hover:-translate-y-1">
+                <div class="relative h-48 overflow-hidden">
+                  {% if event.photo %}
+                    <img alt="{{ event.title }}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" src="{{ event.photo }}">
+                  {% else %}
+                    <img alt="{{ event.title }}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" src="/assets/img/seed-latam-salta.jpg">
+                  {% endif %}
+                  <div class="absolute top-3 left-3 bg-background-dark/80 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider border border-border-dark">{{ event.event_date_parsed }}</div>
+                </div>
+                <div class="p-5 flex flex-col flex-grow">
+                  <div class="flex items-center gap-2 text-white text-xs font-bold uppercase tracking-wider mb-2">
+                    <span class="material-symbols-outlined text-sm">schedule</span>
+                    <span>{{ event.event_hours_parsed }}</span>
+                  </div>
+                  <h3 class="text-xl font-bold text-white mb-2 leading-tight group-hover:text-primary transition-colors">{{ event.title }}</h3>
+                  <p class="text-white text-sm mb-4">{{ event.description }}</p>
+                  <div class="mt-auto pt-4 border-t border-border-dark/50 flex items-center justify-between gap-3">
+                    <div class="flex items-center gap-1.5 text-white text-xs">
+                      <span class="material-symbols-outlined text-base">location_on</span>
+                      <span>{{ event.location }}</span>
+                    </div>
+                    <a class="text-white text-sm font-bold hover:text-primary transition-colors flex items-center gap-1" href="{{ event.link }}" target="_blank">
+                      Ver más
+                      <span class="material-symbols-outlined text-base">chevron_right</span>
+                    </a>
+                  </div>
+                </div>
               </article>
-            </section>
-          </section>
+            {% endfor %}
+          </div>
+          {% if sorted_events.size > 6 %}
+            <div class="flex justify-center mt-8">
+              <button class="text-white hover:text-primary text-sm font-bold flex items-center gap-2 transition-colors" id="toggleEvents" type="button" aria-expanded="false">
+                <span id="toggleEventsLabel">Cargar eventos anteriores</span>
+                <span class="material-symbols-outlined text-base">expand_more</span>
+              </button>
+            </div>
+          {% endif %}
+        {% endif %}
+      </section>
 
-          <div class="row subRow" id="buttonsHead">
-            <div class="col-8">
-              <h2>
-                {{ latest_event.title }}
-              </h2>
-              <p>
-                {{ latest_event.description }}
-              </p>
-            </div>
-            <div class="col-4">
-              <div class="headerButtons">
-                <a href="{{ latest_event.link }}" class="headerButton" target="_blank">¡Únete Ahora!</a>
-              </div>
-            </div>
+      <section class="py-12 border-t border-border-dark">
+        <div class="bg-surface-dark border border-border-dark rounded-2xl p-8 md:p-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+          <div>
+            <h3 class="text-2xl font-bold text-white">¿Querés proponer un evento?</h3>
+            <p class="text-white mt-2">Contanos tu idea y la sumamos al calendario.</p>
+          </div>
+          <div class="flex flex-wrap gap-3">
+            <a class="bg-primary hover:bg-red-700 text-white font-bold px-6 py-3 rounded-lg shadow-lg shadow-primary/20 transition-all" href="mailto:comusaltadev@gmail.com">Escribir propuesta</a>
+            <a class="border border-white/60 text-white font-bold px-6 py-3 rounded-lg hover:border-primary hover:text-primary transition-all" href="{{ site.whatsapp }}" target="_blank">Hablar por WhatsApp</a>
           </div>
         </div>
-      </div>
-
-
-
-
-
-      <div class="col-12" style="height: 0vh; overflow: visible;">
-        <div style="position:relative;top:0;left: 0; filter: blur(5vh) ;width: 200vh; height: 200vh; background: radial-gradient(closest-side,rgba(255, 0, 0, 0.178) ,transparent); transform: translate(-50vw,-200vh); pointer-events: none; z-index: 1;"></div>
-        <div style="position:relative;top:0;left: 0; filter: blur(5vh) ;width: 400vh; height: 400vh; background: radial-gradient(closest-side,rgba(255, 0, 0, 0.171) ,transparent); transform: translate(-10vw,-350vh); pointer-events: none; z-index: 1;"></div>
-
-      </div>
+      </section>
     </div>
-
-  </header>
-
-
-  <section id="events">
-    <div class="row">
-      <div class="col-8">
-        <h1>Disfruta de nuestros <b>eventos comunitarios</b></h1>
-      </div>
-      <div class="col-4 buttonsCol">
-        <div class="headerButtons">
-          <a href="/events" class="headerButton">¡Ver todos los eventos!</a>
-        </div>
-      </div>
-
-
-      {% for event in sorted_events %}
-      <div class="col-4 eventContainer">
-        <div class="eventCard">
-          <div class="eventCardHeader" style="background-image: url({{event.photo}});">
-            <div class="row">
-              <div class="col-6" style=" justify-content: left;">
-                <p><i class="fa-solid fa-calendar"></i> {{event.event_date_parsed}}</p>
-              </div>
-              <div class="col-6" style=" justify-content: right; ">
-                <p style=" border-radius: 1vh 0vh  0vh  0vh;"> <i class="fa-solid fa-clock"></i>{{event.event_hours_parsed}}</p>
-              </div>
-            </div>
-          </div>
-          <div class="eventCardBody">
-            <p class="eventTitle">{{event.title}}</p>
-            <p class="eventDescription">{{event.description}}</p>
-
-            <div class="headerButtons">
-              <a href="{{ event.link }}" class="headerButton" target="_blank">¡Únete Ahora!</a>
-            </div>
-
-          </div>
-        </div>
-      </div>
-
-      {% endfor %}
-
-    </div>
-
-
-
-
-
-  </section>
-
-  {% include contact.html %}
+  </main>
 
   {% include footer.html %}
 
   {% include scripts/body-scripts.html %}
+
+  <script>
+    const eventsToggle = document.getElementById('toggleEvents');
+    const eventsList = document.getElementById('eventsList');
+    const eventsToggleLabel = document.getElementById('toggleEventsLabel');
+
+    if (eventsToggle && eventsList && eventsToggleLabel) {
+      eventsToggle.addEventListener('click', () => {
+        const isExpanded = eventsToggle.getAttribute('aria-expanded') === 'true';
+        eventsToggle.setAttribute('aria-expanded', String(!isExpanded));
+        eventsList.classList.toggle('events-expanded', !isExpanded);
+        eventsToggle.querySelector('span.material-symbols-outlined').textContent = !isExpanded ? 'expand_less' : 'expand_more';
+        eventsToggleLabel.textContent = !isExpanded ? 'Mostrar menos eventos' : 'Cargar eventos anteriores';
+      });
+    }
+  </script>
 
 </body>
 

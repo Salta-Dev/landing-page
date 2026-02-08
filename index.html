@@ -1,238 +1,670 @@
 ---
 ---
 <!DOCTYPE html>
-<html lang="es">
+<html class="dark" lang="es">
 
 <head>
   <title>SaltaDev - Comunidad de Desarrolladores</title>
-  {% include head-imports.html %}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="/assets/img/icons/favicon.ico" type="image/x-icon">
+  <link href="https://fonts.googleapis.com" rel="preconnect">
+  <link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#94413d",
+            "background-light": "#f7f6f6",
+            "background-dark": "#181013",
+            "surface-dark": "#23181b",
+            "border-dark": "#3a2a2d",
+          },
+          fontFamily: {
+            "display": ["Space Grotesk", "sans-serif"],
+            "sans": ["Space Grotesk", "sans-serif"],
+          },
+          borderRadius: {
+            "DEFAULT": "0.5rem",
+            "lg": "1rem",
+            "xl": "1.5rem",
+            "full": "9999px"
+          },
+          backgroundImage: {
+            "poncho-pattern": "url(\"data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%2394413d' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\")"
+          }
+        },
+      },
+    }
+  </script>
+  <style>
+    .glass {
+      background: rgba(24, 16, 19, 0.7);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    .poncho-accent {
+      background-image: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 10px,
+        #94413d 10px,
+        #94413d 12px
+      );
+      opacity: 0.1;
+    }
+
+    .poncho-border {
+      border-image: repeating-linear-gradient(45deg, #94413d, #181013 20px) 1;
+    }
+
+    .cursor-glow {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 160px;
+      height: 160px;
+      border-radius: 9999px;
+      background: radial-gradient(circle, rgba(148, 65, 61, 0.2) 0%, rgba(148, 65, 61, 0) 70%);
+      pointer-events: none;
+      opacity: 0;
+      transform: translate(-50%, -50%);
+      z-index: 1;
+      mix-blend-mode: screen;
+    }
+
+    .hero-cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      font-weight: 700;
+      position: relative;
+      z-index: 20;
+      opacity: 1 !important;
+      transform: none !important;
+    }
+
+    .hero-cta-primary {
+      background: #94413d;
+      color: #ffffff;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+    }
+
+    .hero-cta-primary:hover {
+      background: #7a3431;
+      color: #ffffff;
+    }
+
+    .hero-cta-secondary {
+      background: #ffffff;
+      color: #181013;
+      border: 1px solid #ffffff;
+      box-shadow: 0 18px 36px rgba(0, 0, 0, 0.3);
+    }
+
+    .hero-cta-secondary:hover {
+      background: #94413d;
+      color: #ffffff;
+      border-color: #94413d;
+    }
+
+    .floating-scroll {
+      position: fixed;
+      right: 1.5rem;
+      bottom: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      z-index: 30;
+    }
+
+    .floating-scroll button {
+      width: 44px;
+      height: 44px;
+      border-radius: 9999px;
+      background: #94413d;
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.35);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+      animation: float-bob 2.6s ease-in-out infinite;
+    }
+
+    .floating-scroll button:hover {
+      background: #7a3431;
+      transform: translateY(-2px);
+      box-shadow: 0 16px 30px rgba(0, 0, 0, 0.4);
+    }
+
+    .floating-scroll .floating-scroll-top {
+      width: auto;
+      padding: 0 14px;
+      gap: 0.4rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    @keyframes float-bob {
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-4px);
+      }
+    }
+
+    .animated-bg {
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    .animated-bg::before {
+      content: "";
+      position: fixed;
+      inset: -20%;
+      z-index: 0;
+      opacity: 0.35;
+      background: linear-gradient(120deg, rgba(148, 65, 61, 0.35), rgba(24, 16, 19, 0.1), rgba(148, 65, 61, 0.25));
+      background-size: 200% 200%;
+      animation: gradient-drift 18s ease-in-out infinite;
+      pointer-events: none;
+      transform: translateZ(0);
+    }
+
+    @keyframes gradient-drift {
+      0% {
+        background-position: 0% 50%;
+      }
+      50% {
+        background-position: 100% 50%;
+      }
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    .partners-collapsed .partner-hidden {
+      display: none;
+    }
+
+    @media (min-width: 768px) {
+      .partners-collapsed .partner-hidden {
+        display: flex;
+      }
+    }
+  </style>
 </head>
 
-<body>
+<body class="bg-background-light dark:bg-background-dark text-white font-display transition-colors duration-300 antialiased overflow-x-hidden animated-bg">
 
   {% assign sorted_events = site.events | sort: "date" | reverse %}
   {% assign latest_events = sorted_events | slice: 0, 3 %}
 
   {% include nav.html %}
 
-  <header>
-    <div class="row">
-      <div class="col-6" style="position: relative; z-index: 10;">
-        <div>
-          <h1><b>Bienvenido</b> a la comunidad de <span>SaltaDev</span></h1>
-          <p>Has encontrado la comunidad de programación más grande de Salta, donde podrás acceder a todo lo que necesitas en un solo lugar: desde cursos y oportunidades laborales hasta una red de profesionales dispuestos a ayudarte.</p>
-          <div class="headerButtons">
-            <a href="#aboutUs" class="headerButton">¡Más Información!</a>
-            <a href="{{ site.whatsapp }}" class="headerButton" target="_blank">¡Únete Ahora!</a>
-            <div class="buttonDecorator">
-              <img src="/assets/img/icons/wpp.webp" alt="">
-
+  <main class="pt-0" id="top">
+    <section class="relative min-h-[calc(100vh-80px)] flex items-center justify-center overflow-hidden">
+      <div class="absolute inset-0 bg-poncho-pattern opacity-30 z-0 pointer-events-none"></div>
+      <div class="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-primary/10 to-transparent z-0 pointer-events-none"></div>
+      <div class="layout-container max-w-[1200px] w-full px-4 sm:px-6 lg:px-8 relative z-10 grid lg:grid-cols-12 gap-12 items-center pt-6 pb-12 md:pt-10">
+        <div class="lg:col-span-7 flex flex-col gap-6 text-center lg:text-left">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface-dark border border-border-dark w-fit mx-auto lg:mx-0 hero-badge">
+            <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+            <span class="text-xs font-medium text-white uppercase tracking-wide">Comunidad salteña</span>
+          </div>
+          <h1 class="text-5xl sm:text-6xl lg:text-7xl font-bold leading-tight tracking-tight text-white hero-title">
+            El Hub Tech del <br>
+            <span class="text-primary relative inline-block">
+              Norte Argentino
+              <svg class="absolute w-full h-3 -bottom-1 left-0 text-primary opacity-60" fill="none" viewBox="0 0 200 9" xmlns="http://www.w3.org/2000/svg">
+                <path d="M2.00025 6.99997C2.00025 6.99997 23.3283 2.65175 69.2435 2.12642C111.458 1.64326 142.164 4.54452 198.001 2.00002" stroke="currentColor" stroke-linecap="round" stroke-width="3"></path>
+              </svg>
+            </span>
+          </h1>
+          <p class="text-lg text-white max-w-2xl mx-auto lg:mx-0 leading-relaxed hero-subtitle">
+            Conectamos desarrolladores, diseñadores y emprendedores en Salta. Impulsamos el talento local a través de la colaboración, el aprendizaje y eventos.
+          </p>
+          <div class="flex flex-wrap gap-4 justify-center lg:justify-start pt-4">
+            <a class="hero-cta hero-cta-primary text-base px-8 py-3.5 rounded-xl transition-all" href="{{ site.whatsapp }}" target="_blank">
+              <span class="material-symbols-outlined">rocket_launch</span>
+              Unirse a la comunidad
+            </a>
+            <a class="hero-cta hero-cta-secondary text-base px-8 py-3.5 rounded-xl transition-all" href="/events">
+              <span class="material-symbols-outlined">calendar_month</span>
+              Ver Eventos
+            </a>
+          </div>
+        </div>
+        <div class="lg:col-span-5 relative hidden lg:block h-full min-h-[500px]">
+          <div class="absolute inset-0 flex items-center justify-center">
+            <div class="relative w-full aspect-[4/5] rounded-2xl overflow-hidden border border-border-dark">
+              <div class="absolute inset-0 bg-cover bg-center opacity-60 mix-blend-overlay" style='background-image: url("/assets/img/seed-latam-salta.jpg");'></div>
+              <div class="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-background-dark to-transparent">
+                <div class="flex items-center gap-3">
+                  <div class="flex -space-x-3">
+                    <img alt="Member Avatar" class="w-10 h-10 rounded-full border-2 border-background-dark" src="/assets/img/people_1.jpg">
+                    <img alt="Member Avatar" class="w-10 h-10 rounded-full border-2 border-background-dark" src="/assets/img/people_2.jpg">
+                    <img alt="Member Avatar" class="w-10 h-10 rounded-full border-2 border-background-dark" src="/assets/img/people_3.jpg">
+                  </div>
+                  <span class="text-sm font-medium text-white">+1000 miembros</span>
+                </div>
+              </div>
+            </div>
+            <div class="absolute -top-6 -right-6 bg-surface-dark border border-border-dark p-4 rounded-xl shadow-2xl animate-bounce" style="animation-duration: 3s;">
+              <span class="material-symbols-outlined text-white text-3xl">code</span>
             </div>
           </div>
         </div>
       </div>
-      <div class="col-6 headerRight">
-        <div class="d-flex">
-          <img src="/assets/img/code.webp" alt="" class="imageReference">
-          <img src="/assets/img/code.webp" alt="" class="imageReferenceTwo">
+    </section>
 
+    <section class="py-10 border-y border-border-dark bg-surface-dark/50">
+      <div class="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div class="flex flex-col items-center md:items-start p-4 rounded-lg hover:bg-surface-dark transition-colors">
+            <div class="text-4xl lg:text-5xl font-bold text-white mb-2">+1000</div>
+            <div class="text-sm text-white uppercase tracking-wider font-medium">Miembros activos</div>
+          </div>
+          <div class="flex flex-col items-center md:items-start p-4 rounded-lg hover:bg-surface-dark transition-colors">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="material-symbols-outlined text-primary text-3xl">work</span>
+              <span class="text-4xl font-bold text-white text-center">EMPLEOS</span>
+            </div>
+            <div class="text-sm text-white uppercase tracking-wider font-medium text-center">Compartimos ofertas laborales</div>
+          </div>
+          <div class="flex flex-col items-center md:items-start p-4 rounded-lg hover:bg-surface-dark transition-colors">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="material-symbols-outlined text-primary text-3xl">school</span>
+              <span class="text-4xl font-bold text-white text-center">CURSOS</span>
+            </div>
+            <div class="text-sm text-white uppercase tracking-wider font-medium text-center">Compartimos recursos educativos</div>
+          </div>
+          <div class="flex flex-col items-center md:items-start p-4 rounded-lg hover:bg-surface-dark transition-colors">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="material-symbols-outlined text-primary text-3xl">event</span>
+              <span class="text-4xl font-bold text-white text-center">EVENTOS</span>
+            </div>
+            <div class="text-sm text-white uppercase tracking-wider font-medium text-center">Organizamos y difundimos eventos</div>
+          </div>
         </div>
       </div>
-      <div class="col-12" style="height: 0vh; overflow: visible;">
-        <div style="position:relative;top:0;left: 0; filter: blur(5vh) ;width: 200vh; height: 200vh; background: radial-gradient(closest-side,rgba(255, 0, 0, 0.178) ,transparent); transform: translate(-50vw,-200vh); pointer-events: none; z-index: 1;"></div>
-        <div style="position:relative;top:0;left: 0; filter: blur(5vh) ;width: 400vh; height: 400vh; background: radial-gradient(closest-side,rgba(255, 0, 0, 0.171) ,transparent); transform: translate(-10vw,-350vh); pointer-events: none; z-index: 1;"></div>
+    </section>
 
-      </div>
-    </div>
-  </header>
-
-  <main>
-
-    {% include partners.html %}
-    {% include staff.html %}
-
-    <section id="aboutUs">
-      <h1>¡Revisa <b>nuestros</b> logros!</h1>
-      <p>Como comunidad, nos sentimos orgullosos de todos nuestros logros y de cada uno de nuestros miembros. Por eso, aquí te dejamos un listado de todo lo que hemos logrado juntos.</p>
-      <div class="row">
-      <div class="col-3">
-        <div class="featureCard ">
-        <div class="featureCardContainer">
-          <div class="featureCardHeader">
-          <div class="iconContainer">
-            <i class="fa-solid fa-users"></i>
+    <section class="py-20 border-y border-border-dark" id="partners">
+      <div class="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-6">
+          <div class="max-w-2xl">
+            <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Colaboradores</h2>
+            <p class="text-white text-lg">Más de {{ site.confidents | size | minus: 1 }} organizaciones confían en el talento de nuestra comunidad.</p>
           </div>
-          <a href="{{ site.whatsapp }}" target="_blank" class="headerButton">Únete ahora</a>
-          </div>
-
-          <h1>+800</h1>
-          <p>Más de 800 miembros activos en nuestra hermosa comunidad</p>
         </div>
-
+        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6 partners-collapsed" id="partnersGrid">
+          {% for confident in site.confidents %}
+            {% if confident.name and confident.icon %}
+              {% assign partner_hidden = "" %}
+              {% if forloop.index0 >= 4 %}
+                {% assign partner_hidden = "partner-hidden" %}
+              {% endif %}
+              <a class="bg-surface-dark border border-border-dark px-4 py-4 rounded-xl flex flex-col items-center justify-center gap-3 grayscale hover:grayscale-0 transition-all duration-300 hover:border-primary/50 group cursor-pointer min-h-[140px] {{ partner_hidden }}" href="{{ confident.customURL }}" target="_blank">
+                <img alt="{{ confident.name }}" class="max-h-10 max-w-[120px] object-contain" src="{{ confident.icon }}">
+                <span class="text-sm text-white text-center">{{ confident.name }}</span>
+              </a>
+            {% endif %}
+          {% endfor %}
+        </div>
+        <div class="flex justify-center mt-6 md:hidden">
+          <button class="text-primary font-bold flex items-center gap-2" id="togglePartners" type="button" aria-expanded="false">
+            <span id="togglePartnersLabel">Ver todos los colaboradores</span>
+            <span class="material-symbols-outlined text-base">expand_more</span>
+          </button>
         </div>
       </div>
+    </section>
 
-      <div class="col-3">
-        <div class="featureCard">
-        <div class="featureCardContainer">
-          <div class="featureCardHeader">
-          <div class="iconContainer">
-            <i class="fa-solid fa-briefcase"></i>
-          </div>
-          <!-- <a href="/jobs" class="headerButton">Ver ofertas</a> -->
-          </div>
-
-          <h1>Empleo</h1>
-          <p>Consigue el empleo que deseas y demuestra tu talento</p>
+    <section class="py-20 border-y border-border-dark bg-surface-dark relative overflow-hidden" id="community">
+      <div class="absolute right-0 top-0 bottom-0 w-1/3 bg-poncho-pattern opacity-5 pointer-events-none"></div>
+      <div class="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="text-center mb-12">
+          <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Sumate a la charla</h2>
+          <p class="text-white text-lg max-w-2xl mx-auto">Nuestra comunidad vive en diferentes plataformas. Elige tu favorita y comienza a interactuar.</p>
         </div>
-
-        </div>
-      </div>
-
-      <div class="col-3">
-        <div class="featureCard">
-        <div class="featureCardContainer">
-          <div class="featureCardHeader">
-          <div class="iconContainer">
-            <i class="fa-solid fa-user-graduate"></i>
-          </div>
-          <!-- <a href="/courses" class="headerButton">Explorar catálogo</a> -->
-          </div>
-
-          <h1>Cursos</h1>
-          <p>Tenemos un extenso catálogo de cursos para ti</p>
-        </div>
-
-        </div>
-      </div>
-
-      <div class="col-3">
-        <div class="featureCard">
-        <div class="featureCardContainer">
-          <div class="featureCardHeader">
-          <div class="iconContainer">
-            <i class="fa-solid fa-calendar"></i>
-          </div>
-          <a href="/events" class="headerButton">Ver eventos</a>
-          </div>
-
-          <h1>Eventos</h1>
-          <p>Realizamos eventos comunitarios de acceso público y gratuito</p>
-        </div>
-
-        </div>
-      </div>
-
-      </div>
-      <h1 class="text-center" style="margin-top: 20vh;">¿Listo para ser parte de este crecimiento?</h1>
-      <p class="text-center" style="width: 100%;">Conecta con otros profesionales, aprende y crece.</p>
-      <div class="row socialIcons">
-      <div class="col-3">
-
-        <a href="{{site.whatsapp}}" target="_blank">
-        <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="100" height="100" viewBox="0 0 48 48">
-          <path fill="#fff" d="M4.868,43.303l2.694-9.835C5.9,30.59,5.026,27.324,5.027,23.979C5.032,13.514,13.548,5,24.014,5c5.079,0.002,9.845,1.979,13.43,5.566c3.584,3.588,5.558,8.356,5.556,13.428c-0.004,10.465-8.522,18.98-18.986,18.98c-0.001,0,0,0,0,0h-0.008c-3.177-0.001-6.3-0.798-9.073-2.311L4.868,43.303z"></path>
-          <path fill="#fff" d="M4.868,43.803c-0.132,0-0.26-0.052-0.355-0.148c-0.125-0.127-0.174-0.312-0.127-0.483l2.639-9.636c-1.636-2.906-2.499-6.206-2.497-9.556C4.532,13.238,13.273,4.5,24.014,4.5c5.21,0.002,10.105,2.031,13.784,5.713c3.679,3.683,5.704,8.577,5.702,13.781c-0.004,10.741-8.746,19.48-19.486,19.48c-3.189-0.001-6.344-0.788-9.144-2.277l-9.875,2.589C4.953,43.798,4.911,43.803,4.868,43.803z"></path>
-          <path fill="#cfd8dc" d="M24.014,5c5.079,0.002,9.845,1.979,13.43,5.566c3.584,3.588,5.558,8.356,5.556,13.428c-0.004,10.465-8.522,18.98-18.986,18.98h-0.008c-3.177-0.001-6.3-0.798-9.073-2.311L4.868,43.303l2.694-9.835C5.9,30.59,5.026,27.324,5.027,23.979C5.032,13.514,13.548,5,24.014,5 M24.014,42.974C24.014,42.974,24.014,42.974,24.014,42.974 M24.014,42.974C24.014,42.974,24.014,42.974,24.014,42.974C24.014,42.974,24.014,42.974,24.014,42.974 M24.014,4C24.014,4,24.014,4,24.014,4C12.998,4,4.032,12.962,4.027,23.979c-0.001,3.367,0.849,6.685,2.461,9.622l-2.585,9.439c-0.094,0.345,0.002,0.713,0.254,0.967c0.19,0.192,0.447,0.297,0.711,0.297c0.085,0,0.17-0.011,0.254-0.033l9.687-2.54c2.828,1.468,5.998,2.243,9.197,2.244c11.024,0,19.99-8.963,19.995-19.98c0.002-5.339-2.075-10.359-5.848-14.135C34.378,6.083,29.357,4.002,24.014,4L24.014,4z"></path>
-          <path fill="#40c351" d="M35.176,12.832c-2.98-2.982-6.941-4.625-11.157-4.626c-8.704,0-15.783,7.076-15.787,15.774c-0.001,2.981,0.833,5.883,2.413,8.396l0.376,0.597l-1.595,5.821l5.973-1.566l0.577,0.342c2.422,1.438,5.2,2.198,8.032,2.199h0.006c8.698,0,15.777-7.077,15.78-15.776C39.795,19.778,38.156,15.814,35.176,12.832z"></path>
-          <path fill="#fff" fill-rule="evenodd" d="M19.268,16.045c-0.355-0.79-0.729-0.806-1.068-0.82c-0.277-0.012-0.593-0.011-0.909-0.011c-0.316,0-0.83,0.119-1.265,0.594c-0.435,0.475-1.661,1.622-1.661,3.956c0,2.334,1.7,4.59,1.937,4.906c0.237,0.316,3.282,5.259,8.104,7.161c4.007,1.58,4.823,1.266,5.693,1.187c0.87-0.079,2.807-1.147,3.202-2.255c0.395-1.108,0.395-2.057,0.277-2.255c-0.119-0.198-0.435-0.316-0.909-0.554s-2.807-1.385-3.242-1.543c-0.435-0.158-0.751-0.237-1.068,0.238c-0.316,0.474-1.225,1.543-1.502,1.859c-0.277,0.317-0.554,0.357-1.028,0.119c-0.474-0.238-2.002-0.738-3.815-2.354c-1.41-1.257-2.362-2.81-2.639-3.285c-0.277-0.474-0.03-0.731,0.208-0.968c0.213-0.213,0.474-0.554,0.712-0.831c0.237-0.277,0.316-0.475,0.474-0.791c0.158-0.317,0.079-0.594-0.04-0.831C20.612,19.329,19.69,16.983,19.268,16.045z" clip-rule="evenodd"></path>
-        </svg>
-        <span> Whatsapp</span>
-
-
-        </a>
-      </div>
-      <div class="col-3">
-        <a href="{{ site.discord }}" target="_blank">
-        <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="100" height="100" viewBox="0 0 48 48">
-              <path fill="#8c9eff" d="M40,12c0,0-4.585-3.588-10-4l-0.488,0.976C34.408,10.174,36.654,11.891,39,14c-4.045-2.065-8.039-4-15-4s-10.955,1.935-15,4c2.346-2.109,5.018-4.015,9.488-5.024L18,8c-5.681,0.537-10,4-10,4s-5.121,7.425-6,22c5.162,5.953,13,6,13,6l1.639-2.185C13.857,36.848,10.715,35.121,8,32c3.238,2.45,8.125,5,16,5s12.762-2.55,16-5c-2.715,3.121-5.857,4.848-8.639,5.815L33,40c0,0,7.838-0.047,13-6C45.121,19.425,40,12,40,12z M17.5,30c-1.933,0-3.5-1.791-3.5-4c0-2.209,1.567-4,3.5-4s3.5,1.791,3.5,4C21,28.209,19.433,30,17.5,30z M30.5,30c-1.933,0-3.5-1.791-3.5-4c0-2.209,1.567-4,3.5-4s3.5,1.791,3.5,4C34,28.209,32.433,30,30.5,30z"></path>
-            </svg>
-            <span>Discord</span>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <a class="group relative flex flex-col items-center p-8 bg-background-dark border border-border-dark rounded-2xl hover:border-indigo-500 transition-all duration-300 overflow-hidden hover:shadow-2xl hover:shadow-indigo-500/10" href="{{ site.discord }}" target="_blank">
+            <div class="absolute inset-0 bg-gradient-to-br from-indigo-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+            <div class="bg-indigo-500/20 p-4 rounded-full mb-6 text-white group-hover:text-white group-hover:bg-indigo-500 transition-colors">
+              <svg class="w-10 h-10" viewBox="0 0 24 24" aria-hidden="true">
+                <path fill="currentColor" d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z"></path>
+              </svg>
+            </div>
+            <h3 class="text-xl font-bold text-white mb-2">Discord</h3>
+            <p class="text-center text-white text-sm">Chat en vivo, canales de voz y ayuda técnica.</p>
           </a>
-        </div>
-        <div class="col-3">
-          <a href="{{ site.linkedin }}" target="_blank">
-            <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="100" height="100" viewBox="0 0 48 48">
-              <path fill="#0288D1" d="M42,37c0,2.762-2.238,5-5,5H11c-2.761,0-5-2.238-5-5V11c0-2.762,2.239-5,5-5h26c2.762,0,5,2.238,5,5V37z"></path>
-              <path fill="#FFF" d="M12 19H17V36H12zM14.485 17h-.028C12.965 17 12 15.888 12 14.499 12 13.08 12.995 12 14.514 12c1.521 0 2.458 1.08 2.486 2.499C17 15.887 16.035 17 14.485 17zM36 36h-5v-9.099c0-2.198-1.225-3.698-3.192-3.698-1.501 0-2.313 1.012-2.707 1.99C24.957 25.543 25 26.511 25 27v9h-5V19h5v2.616C25.721 20.5 26.85 19 29.738 19c3.578 0 6.261 2.25 6.261 7.274L36 36 36 36z"></path>
-            </svg>
-            <span>Linkedin</span>
+          <a class="group relative flex flex-col items-center p-8 bg-background-dark border border-border-dark rounded-2xl hover:border-green-500 transition-all duration-300 overflow-hidden hover:shadow-2xl hover:shadow-green-500/10" href="{{ site.whatsapp }}" target="_blank">
+            <div class="absolute inset-0 bg-gradient-to-br from-green-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+            <div class="bg-green-500/20 p-4 rounded-full mb-6 text-white group-hover:text-white group-hover:bg-green-500 transition-colors">
+              <svg class="w-10 h-10" viewBox="0 0 24 24" aria-hidden="true">
+                <path fill="currentColor" d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"></path>
+              </svg>
+            </div>
+            <h3 class="text-xl font-bold text-white mb-2">WhatsApp</h3>
+            <p class="text-center text-white text-sm">Grupos por temática y anuncios rápidos.</p>
           </a>
-        </div>
-        <div class="col-3">
-          <a href="{{ site.github }}" target="_blank">
-            <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="100" height="100" viewBox="0,0,256,256" style="fill:#FFFFFF;">
-              <g fill="#ffffff" fill-rule="nonzero" stroke="none" stroke-width="1" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="10" stroke-dasharray="" stroke-dashoffset="0" font-family="none" font-weight="none" font-size="none" text-anchor="none" style="mix-blend-mode: normal">
-                <g transform="scale(8.53333,8.53333)">
-                  <path d="M15,3c-6.627,0 -12,5.373 -12,12c0,5.623 3.872,10.328 9.092,11.63c-0.056,-0.162 -0.092,-0.35 -0.092,-0.583v-2.051c-0.487,0 -1.303,0 -1.508,0c-0.821,0 -1.551,-0.353 -1.905,-1.009c-0.393,-0.729 -0.461,-1.844 -1.435,-2.526c-0.289,-0.227 -0.069,-0.486 0.264,-0.451c0.615,0.174 1.125,0.596 1.605,1.222c0.478,0.627 0.703,0.769 1.596,0.769c0.433,0 1.081,-0.025 1.691,-0.121c0.328,-0.833 0.895,-1.6 1.588,-1.962c-3.996,-0.411 -5.903,-2.399 -5.903,-5.098c0,-1.162 0.495,-2.286 1.336,-3.233c-0.276,-0.94 -0.623,-2.857 0.106,-3.587c1.798,0 2.885,1.166 3.146,1.481c0.896,-0.307 1.88,-0.481 2.914,-0.481c1.036,0 2.024,0.174 2.922,0.483c0.258,-0.313 1.346,-1.483 3.148,-1.483c0.732,0.731 0.381,2.656 0.102,3.594c0.836,0.945 1.328,2.066 1.328,3.226c0,2.697 -1.904,4.684 -5.894,5.097c1.098,0.573 1.899,2.183 1.899,3.396v2.734c0,0.104 -0.023,0.179 -0.035,0.268c4.676,-1.639 8.035,-6.079 8.035,-11.315c0,-6.627 -5.373,-12 -12,-12z"></path>
-                </g>
-              </g>
-            </svg>
-            <span>Github</span>
+          <a class="group relative flex flex-col items-center p-8 bg-background-dark border border-border-dark rounded-2xl hover:border-blue-500 transition-all duration-300 overflow-hidden hover:shadow-2xl hover:shadow-blue-500/10" href="{{ site.linkedin }}" target="_blank">
+            <div class="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+            <div class="bg-blue-500/20 p-4 rounded-full mb-6 text-white group-hover:text-white group-hover:bg-blue-500 transition-colors">
+              <svg class="w-10 h-10" viewBox="0 0 24 24" aria-hidden="true">
+                <path fill="currentColor" d="M20.447 20.452h-3.554v-5.569c0-1.328-.026-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.266 2.37 4.266 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zM6.956 20.452H3.72V9h3.236v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.727v20.545C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.273V1.727C24 .774 23.2 0 22.222 0h.003z"></path>
+              </svg>
+            </div>
+            <h3 class="text-xl font-bold text-white mb-2">LinkedIn</h3>
+            <p class="text-center text-white text-sm">Networking profesional y oportunidades.</p>
+          </a>
+          <a class="group relative flex flex-col items-center p-8 bg-background-dark border border-border-dark rounded-2xl hover:border-slate-500 transition-all duration-300 overflow-hidden hover:shadow-2xl hover:shadow-slate-500/10" href="{{ site.github }}" target="_blank">
+            <div class="absolute inset-0 bg-gradient-to-br from-slate-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+            <div class="bg-slate-500/20 p-4 rounded-full mb-6 text-white group-hover:text-white group-hover:bg-slate-500 transition-colors">
+              <svg class="w-10 h-10" viewBox="0 0 24 24" aria-hidden="true">
+                <path fill="currentColor" d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"></path>
+              </svg>
+            </div>
+            <h3 class="text-xl font-bold text-white mb-2">GitHub</h3>
+            <p class="text-center text-white text-sm">Proyectos open source de la comunidad.</p>
           </a>
         </div>
       </div>
     </section>
 
-    <section id="events">
-      <div class="row">
-        <div class="col-8">
-          <h1>Disfruta de nuestros <b>eventos comunitarios</b></h1>
+    <section class="py-20 border-y border-border-dark" id="events">
+      <div class="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between mb-12">
+          <h2 class="text-3xl md:text-4xl font-bold text-white">Próximos Eventos</h2>
+          <a class="hidden sm:block text-white font-bold hover:underline" href="/events">Ver calendario completo</a>
         </div>
-        <div class="col-4 buttonsCol">
-          <div class="headerButtons">
-            <a href="/events" class="headerButton">¡Ver todos los eventos!</a>
-          </div>
-        </div>
-
-
-        {% for event in latest_events %}
-        <div class="col-4 eventContainer">
-          <div class="eventCard ">
-            <div class="eventCardHeader" style="background-image: url({{event.photo}});">
-              <div class="row">
-                <div class="col-6" style=" justify-content: left;">
-                  <p><i class="fa-solid fa-calendar"></i> {{event.event_date_parsed}}</p>
-                </div>
-                <div class="col-6" style=" justify-content: right; ">
-                  <p style=" border-radius: 1vh 0vh  0vh  0vh;"> <i class="fa-solid fa-clock"></i>{{event.event_hours_parsed}}</p>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {% for event in latest_events %}
+            <div class="bg-surface-dark border border-border-dark rounded-xl overflow-hidden group hover:border-primary transition-colors flex flex-col h-full">
+              <div class="h-48 bg-cover bg-center relative" style="background-image: url('{{ event.photo }}');">
+                <div class="absolute top-4 left-4 bg-background-dark/90 text-white rounded-lg p-2 text-center min-w-[120px] border border-border-dark">
+                  <span class="block text-xs uppercase font-bold text-white">{{ event.event_date_parsed }}</span>
+                  <span class="block text-xs text-white">{{ event.event_hours_parsed }}</span>
                 </div>
               </div>
-            </div>
-            <div class="eventCardBody ">
-              <p class="eventTitle">{{event.title}}</p>
-              <p class="eventDescription ">{{event.description}}</p>
-
-              <div class="headerButtons">
-                <a href="{{ event.link }}" class="headerButton" target="_blank">¡Únete Ahora!</a>
+              <div class="p-6 flex flex-col h-full">
+                <div class="flex items-center gap-2 text-white text-xs font-bold uppercase mb-2">
+                  <span class="material-symbols-outlined text-sm">location_on</span>
+                  <span>{{ event.location }}</span>
+                </div>
+                <h3 class="text-xl font-bold text-white mb-3 group-hover:text-white transition-colors">{{ event.title }}</h3>
+                <p class="text-white text-sm mb-6 flex-1">{{ event.description }}</p>
+                <a class="w-full h-11 rounded-lg border border-white text-white font-bold hover:border-primary hover:text-primary transition-all inline-flex items-center justify-center mt-auto" href="{{ event.link }}" target="_blank">
+                  Registrarme
+                </a>
               </div>
-
             </div>
-          </div>
+          {% endfor %}
         </div>
-
-        {% endfor %}
-
-      </div>
-
-
-
-
-
       </div>
     </section>
 
+    <section class="py-20 border-y border-border-dark bg-surface-dark" id="staff">
+      <div class="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+          <h2 class="text-3xl md:text-4xl font-bold text-white">Quiénes Somos</h2>
+          <p class="text-white text-lg mt-2">El equipo detrás de la organización de SaltaDev.</p>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+          {% for member in site.staff %}
+            <div class="bg-background-dark border border-border-dark p-6 rounded-xl flex flex-col items-center text-center hover:-translate-y-1 transition-transform duration-300 h-full">
+              <div class="w-24 h-24 rounded-full overflow-hidden mb-4 border-2 border-primary/50">
+                {% if member.photo %}
+                  <img alt="{{ member.name }}" class="w-full h-full object-cover" src="{{ member.photo }}">
+                {% else %}
+                  <img alt="{{ member.name }}" class="w-full h-full object-cover" src="/assets/img/staff/default.jpg">
+                {% endif %}
+              </div>
+              <h3 class="text-lg font-bold text-white">{{ member.name }}</h3>
+              {% if member.role %}
+                {% assign role_class = "text-white" %}
+                {% if member.role == "Fundador" or member.role == "Administrador" or member.role == "Administradora" %}
+                  {% assign role_class = "text-primary" %}
+                {% endif %}
+                <p class="{{ role_class }} text-sm font-medium mb-2">{{ member.role }}</p>
+              {% endif %}
+              {% if member.description %}
+                <p class="text-white text-sm mb-6">{{ member.description }}</p>
+              {% endif %}
+              <div class="flex gap-3 mt-auto">
+                {% if member.linkedin %}
+                  <a class="text-white hover:text-white" href="{{ member.linkedin }}" target="_blank" aria-label="LinkedIn">
+                    <svg class="w-5 h-5" viewBox="0 0 24 24" aria-hidden="true">
+                      <path fill="currentColor" d="M20.447 20.452h-3.554v-5.569c0-1.328-.026-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.266 2.37 4.266 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zM6.956 20.452H3.72V9h3.236v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.727v20.545C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.273V1.727C24 .774 23.2 0 22.222 0h.003z"></path>
+                    </svg>
+                  </a>
+                {% endif %}
+                {% if member.github %}
+                  <a class="text-white hover:text-white" href="{{ member.github }}" target="_blank" aria-label="GitHub">
+                    <svg class="w-5 h-5" viewBox="0 0 24 24" aria-hidden="true">
+                      <path fill="currentColor" d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"></path>
+                    </svg>
+                  </a>
+                {% endif %}
+                {% if member.twitter %}
+                  <a class="text-white hover:text-white" href="{{ member.twitter }}" target="_blank" aria-label="X">
+                    <svg class="w-5 h-5" viewBox="0 0 24 24" aria-hidden="true">
+                      <path fill="currentColor" d="M14.234 10.162 22.977 0h-2.072l-7.591 8.824L7.251 0H.258l9.168 13.343L.258 24H2.33l8.016-9.318L16.749 24h6.993zm-2.837 3.299-.929-1.329L3.076 1.56h3.182l5.965 8.532.929 1.329 7.754 11.09h-3.182z"></path>
+                    </svg>
+                  </a>
+                {% endif %}
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
 
-    {% include contact.html %}
-
-
+    <section class="py-20 border-y border-border-dark relative overflow-hidden" id="contact">
+      <div class="absolute inset-0 bg-poncho-pattern opacity-10 z-0 pointer-events-none"></div>
+      <div class="max-w-[800px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div class="bg-surface-dark border border-border-dark rounded-2xl p-8 md:p-12 shadow-2xl">
+          <div class="text-center mb-8">
+            <h2 class="text-3xl font-bold text-white">Contáctanos</h2>
+            <p class="text-white mt-2">¿Tienes alguna duda o propuesta? Escríbenos.</p>
+          </div>
+          <form action="mailto:comusaltadev@gmail.com" class="space-y-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div class="flex flex-col gap-2">
+                <label class="text-sm font-bold text-white" for="name">Nombre</label>
+                <input class="bg-background-dark border border-border-dark text-white rounded-lg px-4 py-3 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors" id="name" name="name" placeholder="Tu nombre" type="text">
+              </div>
+              <div class="flex flex-col gap-2">
+                <label class="text-sm font-bold text-white" for="email">Email</label>
+                <input class="bg-background-dark border border-border-dark text-white rounded-lg px-4 py-3 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors" id="email" name="email" placeholder="tu@email.com" type="email">
+              </div>
+            </div>
+            <div class="flex flex-col gap-2">
+              <label class="text-sm font-bold text-white" for="subject">Asunto</label>
+              <input class="bg-background-dark border border-border-dark text-white rounded-lg px-4 py-3 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors" id="subject" name="subject" placeholder="Motivo de contacto" type="text" required>
+            </div>
+            <div class="flex flex-col gap-2">
+              <label class="text-sm font-bold text-white" for="message">Mensaje</label>
+              <textarea class="bg-background-dark border border-border-dark text-white rounded-lg px-4 py-3 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors resize-none" id="message" name="body" placeholder="Escribe tu mensaje aquí..." rows="4" required></textarea>
+            </div>
+            <button class="w-full bg-primary hover:bg-red-700 text-white font-bold py-3.5 rounded-lg shadow-lg shadow-primary/20 transition-all" type="submit">
+              Enviar Mensaje
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
   </main>
-
-
 
   {% include footer.html %}
 
-  {% include scripts/body-scripts.html %}
+  <div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
+  <div class="floating-scroll" aria-hidden="true">
+    <button id="scrollUp" type="button" aria-label="Scroll arriba">
+      <span class="material-symbols-outlined">keyboard_arrow_up</span>
+    </button>
+    <button id="scrollTop" type="button" class="floating-scroll-top" aria-label="Volver al inicio">
+      <span class="material-symbols-outlined">north</span>
+      Volver al inicio
+    </button>
+    <button id="scrollDown" type="button" aria-label="Scroll abajo">
+      <span class="material-symbols-outlined">keyboard_arrow_down</span>
+    </button>
+  </div>
+
+  <script>
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const smoothScrollLinks = document.querySelectorAll('a[href^="#"]');
+    smoothScrollLinks.forEach((link) => {
+      link.addEventListener('click', (event) => {
+        const targetId = link.getAttribute('href');
+        if (!targetId || targetId === '#') return;
+        const target = document.querySelector(targetId);
+        if (!target) return;
+        event.preventDefault();
+        target.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth' });
+      });
+    });
+
+    if (!prefersReducedMotion) {
+      gsap.registerPlugin(ScrollTrigger);
+      gsap.from('header', { y: -20, opacity: 0, duration: 0.8, ease: 'power2.out' });
+      gsap.from('.hero-badge', { y: 12, opacity: 0, duration: 0.6, delay: 0.15, ease: 'power2.out' });
+      gsap.from('.hero-title', { y: 26, opacity: 0, duration: 0.9, delay: 0.25, ease: 'power3.out' });
+      gsap.from('.hero-subtitle', { y: 18, opacity: 0, duration: 0.8, delay: 0.4, ease: 'power3.out' });
+
+      const sectionBlocks = document.querySelectorAll('section');
+      sectionBlocks.forEach((section) => {
+        gsap.from(section, {
+          scrollTrigger: {
+            trigger: section,
+            start: 'top 85%'
+          },
+          y: 24,
+          opacity: 0,
+          duration: 0.8,
+          ease: 'power2.out'
+        });
+      });
+
+      const cursorGlow = document.getElementById('cursorGlow');
+      if (cursorGlow) {
+        window.addEventListener('mousemove', (event) => {
+          gsap.to(cursorGlow, {
+            x: event.clientX,
+            y: event.clientY,
+            opacity: 1,
+            duration: 0.25,
+            ease: 'power2.out'
+          });
+        });
+
+        window.addEventListener('mouseleave', () => {
+          gsap.to(cursorGlow, { opacity: 0, duration: 0.3, ease: 'power2.out' });
+        });
+      }
+
+    }
+
+    const scrollTopButton = document.getElementById('scrollTop');
+    const scrollUp = document.getElementById('scrollUp');
+    const scrollDown = document.getElementById('scrollDown');
+    const sections = Array.from(document.querySelectorAll('main section'));
+    const header = document.querySelector('header');
+    const headerOffset = header ? header.offsetHeight + 12 : 92;
+
+    sections.forEach((section) => {
+      section.style.scrollMarginTop = `${headerOffset}px`;
+    });
+
+    const scrollToSection = (section) => {
+      if (!section) return;
+      section.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth', block: 'start' });
+    };
+
+    const getCurrentSectionIndex = () => {
+      const marker = window.scrollY + headerOffset + 8;
+      const foundIndex = sections.findIndex((section) => {
+        const top = section.offsetTop;
+        const bottom = top + section.offsetHeight;
+        return marker >= top && marker < bottom;
+      });
+      if (foundIndex !== -1) return foundIndex;
+      return sections.length - 1;
+    };
+
+    const updateScrollButtons = () => {
+      const currentIndex = getCurrentSectionIndex();
+      const lastIndex = sections.length - 1;
+      const atTop = currentIndex <= 0;
+      const atBottom = currentIndex >= lastIndex;
+
+      if (scrollUp) {
+        scrollUp.style.display = atTop ? 'none' : 'inline-flex';
+      }
+      if (scrollDown) {
+        scrollDown.style.display = atBottom ? 'none' : 'inline-flex';
+      }
+      if (scrollTopButton) {
+        scrollTopButton.style.display = atBottom ? 'inline-flex' : 'none';
+      }
+    };
+
+    if (scrollTopButton) {
+      scrollTopButton.addEventListener('click', () => {
+        scrollToSection(sections[0]);
+      });
+    }
+    if (scrollUp) {
+      scrollUp.addEventListener('click', () => {
+        const currentIndex = getCurrentSectionIndex();
+        scrollToSection(sections[Math.max(0, currentIndex - 1)]);
+      });
+    }
+    if (scrollDown) {
+      scrollDown.addEventListener('click', () => {
+        const currentIndex = getCurrentSectionIndex();
+        scrollToSection(sections[Math.min(sections.length - 1, currentIndex + 1)]);
+      });
+    }
+
+    updateScrollButtons();
+    window.addEventListener('load', updateScrollButtons);
+    window.addEventListener('scroll', updateScrollButtons, { passive: true });
+    window.addEventListener('resize', updateScrollButtons);
+
+    const partnersToggle = document.getElementById('togglePartners');
+    const partnersGrid = document.getElementById('partnersGrid');
+    const partnersToggleLabel = document.getElementById('togglePartnersLabel');
+
+    if (partnersToggle && partnersGrid && partnersToggleLabel) {
+      partnersToggle.addEventListener('click', () => {
+        const isExpanded = partnersToggle.getAttribute('aria-expanded') === 'true';
+        partnersToggle.setAttribute('aria-expanded', String(!isExpanded));
+        partnersGrid.classList.toggle('partners-collapsed', isExpanded);
+        partnersToggle.querySelector('span.material-symbols-outlined').textContent = !isExpanded ? 'expand_less' : 'expand_more';
+        partnersToggleLabel.textContent = !isExpanded ? 'Ver menos colaboradores' : 'Ver todos los colaboradores';
+      });
+    }
+  </script>
 
 </body>
 
