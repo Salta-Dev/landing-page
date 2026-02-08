@@ -33,33 +33,7 @@
       },
     }
   </script>
-  <style>
-    .glass {
-      background: rgba(24, 16, 19, 0.7);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-    }
-
-    .poncho-accent {
-      background: repeating-linear-gradient(
-        90deg,
-        #94413d,
-        #94413d 20px,
-        #181013 20px,
-        #181013 40px,
-        #7a3431 40px,
-        #7a3431 50px,
-        #181013 50px,
-        #181013 70px
-      );
-      height: 4px;
-      width: 100%;
-    }
-
-    .scroll-mt-32 {
-      scroll-margin-top: 8rem;
-    }
-  </style>
+  <link rel="stylesheet" href="/assets/css/reglamento.css">
 </head>
 
 <body class="bg-background-light dark:bg-background-dark text-white font-display antialiased">
@@ -237,45 +211,7 @@
 
   {% include footer.html %}
 
-  {% include scripts/body-scripts.html %}
-
-  <script>
-    const tocLinks = Array.from(document.querySelectorAll('.toc-link'));
-    const tocSections = tocLinks
-      .map((link) => document.querySelector(link.getAttribute('href')))
-      .filter(Boolean);
-
-    const setActiveToc = (activeId) => {
-      tocLinks.forEach((link) => {
-        const isActive = link.getAttribute('href') === `#${activeId}`;
-        link.classList.toggle('text-primary', isActive);
-        link.classList.toggle('font-medium', isActive);
-        link.classList.toggle('text-white/70', !isActive);
-      });
-    };
-
-    if (tocSections.length) {
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              setActiveToc(entry.target.id);
-            }
-          });
-        },
-        { rootMargin: '-20% 0px -60% 0px', threshold: 0.1 }
-      );
-
-      tocSections.forEach((section) => observer.observe(section));
-
-      tocLinks.forEach((link) => {
-        link.addEventListener('click', () => {
-          const targetId = link.getAttribute('href')?.slice(1);
-          if (targetId) setActiveToc(targetId);
-        });
-      });
-    }
-  </script>
+  <script src="/assets/js/reglamento.js"></script>
 
 </body>
 

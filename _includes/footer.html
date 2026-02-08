@@ -27,25 +27,30 @@
           <li><a class="hover:text-white transition-colors" href="/#community">Comunidad</a></li>
         </ul>
       </div>
-      <div>
+      <div id="footerLegal">
         <h4 class="text-white font-bold mb-4">Legal</h4>
         <ul class="space-y-2 text-sm text-white">
           <li><a class="hover:text-white transition-colors" href="/reglamento">Términos y Condiciones</a></li>
           <li><a class="hover:text-white transition-colors" href="/reglamento">Política de Privacidad</a></li>
           <li><a class="hover:text-white transition-colors" href="/reglamento">Código de Conducta</a></li>
         </ul>
+        <div class="mt-4 flex justify-center md:hidden" id="footerBackToTop">
+          <a class="bg-primary hover:bg-red-700 text-white text-sm font-bold px-5 py-2.5 rounded-lg shadow-lg shadow-primary/20 transition-all" href="#top">
+            Volver al inicio
+          </a>
+        </div>
       </div>
     </div>
     <div class="border-t border-border-dark pt-6 flex flex-col md:flex-row justify-between items-center gap-4">
       <p class="text-white text-sm">© 2026 SaltaDev. Todos los derechos reservados.</p>
       <div class="flex items-center gap-4">
-        <a class="text-white hover:text-white transition-colors" href="{{ site.linkedin }}" target="_blank" aria-label="LinkedIn">
+        <a class="text-white hover:text-white transition-colors inline-flex items-center" href="{{ site.linkedin }}" target="_blank" aria-label="LinkedIn">
           <svg class="w-5 h-5" viewBox="0 0 24 24" aria-hidden="true">
             <path fill="currentColor" d="M20.447 20.452h-3.554v-5.569c0-1.328-.026-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.266 2.37 4.266 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zM6.956 20.452H3.72V9h3.236v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.727v20.545C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.273V1.727C24 .774 23.2 0 22.222 0h.003z"></path>
           </svg>
         </a>
-        <a class="text-white hover:text-white transition-colors" href="mailto:comusaltadev@gmail.com" aria-label="Email">
-          <span class="material-symbols-outlined">mail</span>
+        <a class="text-white hover:text-white transition-colors inline-flex items-center" href="mailto:comusaltadev@gmail.com" aria-label="Email">
+          <span class="material-symbols-outlined text-[20px] leading-none">mail</span>
         </a>
       </div>
     </div>

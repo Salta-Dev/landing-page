@@ -1,0 +1,25 @@
+.glass {
+  background: rgba(24, 16, 19, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.poncho-accent {
+  background: repeating-linear-gradient(
+    90deg,
+    #94413d,
+    #94413d 20px,
+    #181013 20px,
+    #181013 40px,
+    #7a3431 40px,
+    #7a3431 50px,
+    #181013 50px,
+    #181013 70px
+  );
+  height: 4px;
+  width: 100%;
+}
+
+.scroll-mt-32 {
+  scroll-margin-top: 8rem;
+}
