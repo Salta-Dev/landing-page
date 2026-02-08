@@ -2,229 +2,145 @@
 
 ![SaltaDev Logo](/assets/img/logo-text.webp)
 
-Página web oficial de la **comunidad de desarrolladores más grande de Salta**, construida con Jekyll y optimizada para GitHub Pages.
+Sitio web oficial de la comunidad SaltaDev. Construido con Jekyll, Tailwind CDN y componentes reutilizables.
 
-## 🌟 Características
+## Caracteristicas
 
-- **Diseño responsive** compatible con dispositivos móviles y desktop
-- **Sistema de eventos dinámico** con countdown automático
-- **Galería de partners** con carousel animado
-- **Sección de equipo** con información de administradores
-- **Formulario de contacto** integrado
-- **Optimización SEO** y rendimiento web
-- **Arquitectura modular** con componentes reutilizables
+- Diseno responsive para mobile y desktop.
+- Landing con animaciones GSAP y scroll suave.
+- Eventos dinamicos con countdown.
+- Staff y colaboradores desde colecciones Jekyll.
+- SEO completo (Open Graph, Twitter cards, canonical, robots, sitemap).
 
-## 🛠️ Tecnologías Utilizadas
+## Tecnologias
 
-- **Jekyll** 4.x - Generador de sitios estáticos
-- **Bootstrap** 5.3.3 - Framework CSS responsive
-- **GSAP** 3.12.7 - Animaciones y efectos visuales
-- **Font Awesome** 6.7.2 - Iconografía
-- **Google Fonts** (Poppins) - Tipografía
-- **Liquid** - Template engine de Jekyll
+- Jekyll (GitHub Pages)
+- Tailwind CSS via CDN
+- GSAP 3.12.7 (animaciones)
+- Liquid (templates)
 
-## 📁 Estructura del Proyecto
+## Estructura del proyecto
 
 ```
-├── _confidents/          # Archivos de partners/sponsors
-├── _events/             # Eventos de la comunidad
-├── _includes/           # Componentes reutilizables
-│   ├── head/           # Meta tags y imports
-│   ├── contact.html    # Formulario de contacto
-│   ├── footer.html     # Pie de página
-│   ├── nav.html        # Navegación
-│   ├── partners.html   # Sección de partners
-│   └── staff.html      # Equipo de administración
-├── _staff/             # Información del equipo
-├── assets/             # Recursos estáticos organizados
-│   ├── css/           # Estilos CSS modulares
-│   │   ├── components/ # Estilos de componentes
-│   │   ├── pages/     # Estilos específicos de páginas
-│   │   ├── main.css   # Estilos principales
-│   │   └── style.css  # Configuración global
-│   ├── fonts/         # Fuentes personalizadas
-│   ├── img/           # Imágenes categorizadas
-│   │   ├── backgrounds/
-│   │   ├── events/
-│   │   ├── icons/
-│   │   ├── partners/
-│   │   └── staff/
-│   └── js/            # JavaScript modular
-│       ├── components/ # Módulos de componentes
-│       ├── config/    # Configuraciones
-│       └── main.js    # Archivo principal
-├── index.html         # Página principal
-├── events.html        # Página de eventos
-├── reglamento.html    # Página de reglamento
-└── _config.yml        # Configuración de Jekyll
+├── _confidents/          # Colaboradores
+├── _events/              # Eventos
+├── _includes/            # Componentes reutilizables (nav/footer/etc.)
+├── _staff/               # Staff
+├── assets/
+│   ├── css/              # CSS por pagina
+│   │   ├── index.css
+│   │   ├── events.css
+│   │   └── reglamento.css
+│   ├── img/              # Imagenes
+│   └── js/               # JS por pagina
+│       ├── index.js
+│       ├── events.js
+│       └── reglamento.js
+├── index.html
+├── events.html
+├── reglamento.html
+├── _config.yml
+└── robots.txt
 ```
 
-## 🚀 Instalación y Desarrollo
+## Desarrollo local
 
 ### Prerrequisitos
 
-1. **Ruby** (versión 2.7 o superior)
-   - Windows: Descargar desde [RubyInstaller](https://rubyinstaller.org/)
-   - macOS: `brew install ruby`
-   - Linux: `sudo apt-get install ruby-full`
+- Ruby 2.7+ y Bundler
 
-2. **Jekyll y Bundler**
-   ```bash
-   gem install jekyll bundler
-   ```
+### Pasos
 
-### Configuración Local
-
-1. **Clonar el repositorio**
+1. Clonar el repo
    ```bash
    git clone https://github.com/Salta-Dev/landing-page.git
    cd landing-page
    ```
 
-2. **Instalar dependencias**
+2. Instalar dependencias
    ```bash
    bundle install
    ```
 
-3. **Ejecutar servidor de desarrollo**
+3. Levantar el servidor
    ```bash
    bundle exec jekyll serve --livereload --config _config.yml
    ```
 
-4. **Abrir en navegador**
-   - Ir a `http://localhost:4000`
-   - Los cambios se recargan automáticamente con LiveReload
+4. Abrir `http://localhost:4000`
 
-### VS Code (Recomendado)
+### VS Code
 
-El proyecto incluye una task configurada. Usar `Ctrl+Shift+P` → "Tasks: Run Task" → "Jekyll GitHub Pages Server"
+Usa la task: "Jekyll GitHub Pages Server".
 
-## 📅 Gestión de Eventos
+## Troubleshooting
 
-### Crear un Evento
+- Si cambias `_config.yml`, reinicia el servidor de Jekyll.
+- Si falla `bundle exec jekyll serve` en Windows, verifica Ruby/Bundler y vuelve a ejecutar `bundle install`.
+- Si ves contenido viejo, borra `_site/` y vuelve a correr `bundle exec jekyll serve`.
+- Si no aparece `sitemap.xml`, asegurate de tener `jekyll-sitemap` en el `Gemfile` y reinicia Jekyll.
 
-1. **Crear archivo** en `_events/` con formato: `dd_mm_yyyy_prioridad.md`
-   - Ejemplo: `15_12_2025_00.md`
-   - La prioridad (00-99) determina el orden de visualización
+## Gestion de contenido
 
-2. **Estructura del archivo**:
-   ```yaml
-   ---
-   title: "Nombre del Evento"
-   description: "Descripción detallada del evento"
-   location: "Lugar del evento"
-   photo: "/assets/img/events/evento.jpg"
-   link: "https://enlace-al-evento.com"
-   date: 2025-12-15 19:00:00 -0300
-   event_start_date: "15_12_2025:19_00_00"
-   event_end_date: "15_12_2025:22_00_00"
-   event_date_parsed: "15/12/2025"
-   event_hours_parsed: "19:00 - 22:00"
-   ---
-   
-   Contenido adicional del evento en Markdown...
-   ```
+### Eventos
 
-### Formato de Fechas
+Crear un archivo en `_events/` con formato `dd_mm_yyyy_00.md`.
 
-- **`event_start_date/event_end_date`**: `dd_MM_yyyy:hh_mm_ss`
-- **`date`**: Formato ISO con timezone de Argentina (-0300)
-- **`event_date_parsed`**: Formato de visualización `dd/MM/yyyy`
-- **`event_hours_parsed`**: Formato de visualización `hh:mm - hh:mm`
+Ejemplo:
+```yaml
+---
+title: "Nombre del Evento"
+description: "Descripcion del evento"
+location: "Lugar"
+photo: "/assets/img/events/evento.jpg"
+link: "https://enlace-al-evento.com"
+date: 2025-12-15 19:00:00 -0300
+event_start_date: "15_12_2025:19_00_00"
+event_end_date: "15_12_2025:22_00_00"
+event_date_parsed: "15/12/2025"
+event_hours_parsed: "19:00 - 22:00"
+---
+```
 
-## 👥 Gestión de Equipo
+### Staff
 
-### Agregar Miembro del Staff
-
-Crear archivo en `_staff/` con formato `nombre_apellido.md`:
+Crear un archivo en `_staff/` con formato `nombre_apellido.md`:
 
 ```yaml
 ---
 name: "Nombre Completo"
-role: "Cargo" # Fundador, Administrador, Administradora
-description: "Descripción profesional"
+role: "Cargo"
+description: "Descripcion"
 photo: "/assets/img/staff/nombre_apellido.jpg"
-twitter: "https://twitter.com/usuario" # Opcional
 linkedin: "https://linkedin.com/in/usuario"
-github: "https://github.com/usuario" # Opcional
+github: "https://github.com/usuario"
+twitter: "https://twitter.com/usuario"
 ---
 ```
 
-## 🤝 Gestión de Partners
+### Colaboradores
 
-### Agregar Partner/Sponsor
-
-Crear archivo en `_confidents/` con formato `nombre_empresa.md`:
+Crear un archivo en `_confidents/` con formato `nombre.md`:
 
 ```yaml
 ---
-name: "Nombre de la Empresa"
-description: "Descripción de la empresa"
-link: "https://empresa.com"
-icon: "/assets/img/partners/logo_empresa.png"
+name: "Nombre de la empresa"
+description: "Descripcion"
+customURL: "https://empresa.com"
+icon: "/assets/img/partners/logo.png"
 ---
 ```
 
-## 🎨 Personalización de Estilos
+## SEO
 
-### CSS Modular
+- Metas Open Graph y Twitter en cada pagina.
+- `robots.txt` y `sitemap.xml` generados por Jekyll.
 
-- **`main.css`**: Estilos principales del sitio
-- **`components/`**: Estilos de componentes específicos
-- **`pages/`**: Estilos específicos de páginas
-- **`style.css`**: Configuración global y variables CSS
+## Despliegue
 
-### Variables CSS Principales
+- GitHub Pages con push a `main`.
+- Build manual: `bundle exec jekyll build`.
 
-```css
-:root {
-  --primaryColor: #ff4444;
-  --font-path: '/assets/fonts/';
-  --img-path: '/assets/img/';
-}
-```
+## Licencia
 
-## 🚀 Despliegue
-
-### GitHub Pages (Automático)
-
-El sitio se despliega automáticamente en GitHub Pages con cada push a la rama `main`.
-
-### Despliegue Manual
-
-```bash
-# Construir sitio para producción
-bundle exec jekyll build
-
-# Los archivos generados estarán en _site/
-```
-
-## 📱 SEO y Performance
-
-- **Meta tags** optimizados para redes sociales
-- **Imágenes optimizadas** en formatos WebP y AVIF
-- **CSS y JS minificados** en producción
-- **Lazy loading** de imágenes
-- **Sitemap** automático generado por Jekyll
-
-## 🤝 Contribución
-
-1. **Fork** del repositorio
-2. **Crear rama** para la característica: `git checkout -b feature/nueva-caracteristica`
-3. **Commit** de cambios: `git commit -m 'Agregar nueva característica'`
-4. **Push** a la rama: `git push origin feature/nueva-caracteristica`
-5. **Crear Pull Request**
-
-## 📞 Contacto
-
-- **Email**: contacto@salta.dev.ar
-- **Website**: [salta.dev.ar](https://salta.dev.ar)
-- **WhatsApp**: [Únete a la comunidad](https://salta.dev.ar)
-
-## 📄 Licencia
-
-Este proyecto está bajo la Licencia GPL-3.0. Ver el archivo `LICENSE` para más detalles.
-
----
-
-**Hecho con ❤️ por la comunidad SaltaDev**
+GPL-3.0. Ver [LICENSE](LICENSE).
